@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_employee_equipment_form_inherit" model="ir.ui.view">
+            <field name="name">Hr Employee Equipment Form Inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page name="equipment" string="Equipment">
+                        <field name="equipment_ids">
+                            <tree>
+                                <field name="name"/>
+                                <field name="state"/>
+                                <field name="assign_date"/>
+                                <field name="serial_no"/>
+                                <field name="category_id"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

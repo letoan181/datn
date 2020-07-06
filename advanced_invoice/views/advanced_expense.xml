@@ -1,0 +1,34 @@
+<odoo>
+    <data>
+        <record id="advanced_expense_form_current_payment_id" model="ir.ui.view">
+            <field name="name">Advanced Expense - Account Payment</field>
+            <field name="model">hr.expense</field>
+            <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vendor']" position="after">
+                    <field name="current_payment_id" attrs="{'invisible':[('current_payment_id', '=', False)]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="additional_expenses_form_view_payment" model="ir.ui.view">
+            <field name="name">additional.expenses.form.payment</field>
+            <field name="model">hr.expense.sheet</field>
+            <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_form"/>
+            <field name="arch" type="xml">
+                  <xpath expr="//field[@name='payment_mode']" position="after">
+                        <field name="pre_journal_id" attrs="{'invisible': [('payment_mode', '=', 'company_account')], 'required': [('payment_mode', '=', 'own_account')]}"/>
+                  </xpath>
+                  <xpath expr="//button[@name='%(hr_expense.hr_expense_sheet_register_payment_wizard_action)d']" position="replace">
+                        <button name="%(hr_expense.hr_expense_sheet_register_payment_wizard_action)d" id="expense_payment_btn"
+                                type="action"
+                                attrs="{'invisible': [('state', '!=', 'post')]}"
+                                string="Register Payment"
+                                class="oe_highlight"
+                                context="{'default_journal_id': pre_journal_id, 'default_amount': total_amount}"
+                        />
+                  </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

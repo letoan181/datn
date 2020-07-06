@@ -1,0 +1,127 @@
+
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-08-08 13:35+0000\n"
+"PO-Revision-Date: 2018-08-24 09:14+0000\n"
+"Last-Translator: Chinh Chinh <trinhttp@trobz.com>, 2019\n"
+"Language-Team: Vietnamese (https://www.transifex.com/odoo/teams/41243/vi/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: vi\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. module: account_asset
+#: code:addons/account_asset/report/account_assets_report.py:0
+#: model:ir.model.fields,field_description:account_asset.field_account_asset__book_value
+#, python-format
+msgid "Book Value"
+msgstr "Giá trị còn lại"
+
+#. module: account_asset
+#: model:ir.actions.client,name:account_asset.action_account_report_assets
+#: model:ir.ui.menu,name:account_asset.menu_action_account_report_assets
+msgid "Assets Report"
+msgstr "Báo cáo phân bổ"
+
+#. module: account_asset
+#: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
+msgid "Asset Values"
+msgstr "Giá trị tài sản"
+
+#. module: account_asset
+#: model:ir.model.fields,field_description:account_asset.field_account_asset__original_value
+msgid "Original Value"
+msgstr "Giá trị ban đầu"
+
+#. module: account_asset
+#: code:addons/account_asset/report/account_assets_report.py:0
+#: model:ir.model.fields,field_description:account_asset.field_account_asset__acquisition_date
+#, python-format
+msgid "Acquisition Date"
+msgstr "Ngày mua"
+
+#. module: account_asset
+#: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
+msgid "Current Values"
+msgstr "GIá trị hiện tại"
+
+#. module: account_asset
+#: model:ir.model.fields,field_description:account_asset.field_account_asset__salvage_value
+msgid "Not Depreciable Value"
+msgstr "Số tiền không phân bổ"
+
+#. module: account_asset
+#: model:ir.model.fields,field_description:account_asset.field_account_asset__value_residual
+#: model:ir.model.fields,field_description:account_asset.field_account_move__asset_remaining_value
+msgid "Depreciable Value"
+msgstr "Số tiền phân bổ"
+
+#. module: account_asset
+#: model:ir.model.fields,field_description:account_asset.field_account_asset__account_asset_id
+#: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_model_search
+msgid "Fixed Asset Account"
+msgstr "Tài khoản tài sản cố định"
+
+#. module: account_asset
+#: model:ir.model.fields,field_description:account_asset.field_account_asset__account_depreciation_id
+#: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_model_search
+msgid "Depreciation Account"
+msgstr "Tài khoản phân bổ chi phí"
+
+#. module: account_asset
+#: model:ir.model.fields,field_description:account_asset.field_account_asset__first_depreciation_date
+msgid "First Depreciation Date"
+msgstr "Ngày phân bổ"
+
+#. module: account_asset
+#: code:addons/account_asset/models/account_asset.py:0
+#: model:ir.model,name:account_asset.model_account_asset_pause
+#: model_terms:ir.ui.view,arch_db:account_asset.asset_pause_form
+#, python-format
+msgid "Pause Asset"
+msgstr "Dừng khấu hao"
+
+#. module: account_asset
+#: model:ir.model.fields,field_description:account_asset.field_account_asset_pause__date
+msgid "Pause date"
+msgstr "Ngày dừng khấu hao"
+
+#. module: account_asset
+#: model_terms:ir.ui.view,arch_db:account_asset.asset_modify_form
+msgid "Modification"
+msgstr "Sửa đổi"
+
+#. module: account_asset
+#: model_terms:ir.ui.view,arch_db:account_asset.asset_modify_form
+msgid "New Values"
+msgstr "Giá trị mới"
+
+#. module: account_asset
+#: model:ir.model.fields,field_description:account_asset.field_asset_modify__value_residual
+msgid "Depreciable Amount"
+msgstr "Số tiền phân bổ"
+
+#. module: account_asset
+#: model:ir.model.fields,field_description:account_asset.field_asset_modify__salvage_value
+msgid "Not Depreciable Amount"
+msgstr "Số tiền không phân bổ"
+
+#. module: account_asset
+#: model_terms:ir.ui.view,arch_db:account_asset.view_account_asset_form
+msgid "Posted Entries"
+msgstr "Bút toán"
+
+#. module: account_asset
+#: code:addons/account_asset/report/account_assets_report.py:0
+#, python-format
+msgid "Caracteristics"
+msgstr "Thông tin"
+
+#. module: account_asset
+#: code:addons/account_asset/report/account_assets_report.py:0
+#, python-format
+msgid "First Depreciation"
+msgstr "Ngày phân bổ"

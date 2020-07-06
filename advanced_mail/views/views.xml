@@ -1,0 +1,29 @@
+<odoo>
+    <data>
+        <template id="assets_backend" name="handle notify assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/advanced_mail/static/src/js/mail_notification_manager.js"></script>
+            </xpath>
+        </template>
+        <record id="email_outgoing_model_config" model="ir.ui.view">
+            <field name="name">email_outgoing_model_config</field>
+            <field name="model">apply.outgoing.mail</field>
+            <field name="arch" type="xml">
+                <form string="OutGoing Mail Config">
+                    <group>
+                        <field name="name"/>
+                        <field name="model" widget="many2many_tags"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_email_outgoing_model_config">
+            <field name="name">#Apply Outgoing Email Model</field>
+            <field name="res_model">apply.outgoing.mail</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'create': False}</field>
+        </record>
+        <menuitem id="send_mail_to_follower_config" parent="base.menu_email" action="action_email_outgoing_model_config"
+                  sequence="16"/>
+    </data>
+</odoo>

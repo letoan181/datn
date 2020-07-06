@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record forcecreate="True" id="new" model="crm.lead.status">
+            <field name="name">New</field>
+        </record>
+        <record forcecreate="True" id="open" model="crm.lead.status">
+            <field name="name">Open</field>
+        </record>
+<!--        New group domain user can be assigned on lead-->
+        <record id="group_user_assigned_lead" model="res.groups">
+            <field name="name">#User Can ve Assigned Lead </field>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+    </data>
+</odoo>

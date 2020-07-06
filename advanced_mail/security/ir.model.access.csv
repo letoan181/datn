@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_admin_config_model_mail_outgoing,access_admin_config_model_mail_outgoing,model_apply_outgoing_mail,base.group_system,1,1,1,0

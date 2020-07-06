@@ -1,0 +1,34 @@
+<odoo>
+    <data>
+        <record id="inherit_res_partner_form" model="ir.ui.view">
+            <field name="name">inherit.res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr='//field[@name="vat"]' position='after'>
+                    <field name="contact_source"/>
+                    <field name="contact_type"/>
+                </xpath>
+            </field>
+        </record>
+        <!--        Search filter for leads-->
+        <record id="res_partner_search_view_inherits" model="ir.ui.view">
+            <field name="name">res.partner.search.view.inherits</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                 <filter name="type_company" position="after">
+                    <separator/>
+                    <filter string="Shop Owner" name="shop_owner" domain="[('contact_type', '=', 'shop_owner')]"/>
+                    <filter string="Digital Agency" name="digital_agency" domain="[('contact_type', '=', 'digital_agency')]"/>
+                    <filter string="Partners" name="partner" domain="[('contact_type', '=', 'partner')]"/>
+                    <filter string="Other" name="other" domain="[('contact_type', '=', 'other')]"/>
+                    <separator/>
+                </filter>
+                <xpath expr="//field[@name='user_id']" position="after">
+                     <field name="contact_source"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

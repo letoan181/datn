@@ -1,0 +1,21 @@
+<odoo>
+    <data>
+        <!--create button-->
+<!--        <record id="interview_button_view" model="ir.ui.view">-->
+<!--            <field name="name">interview.button.view</field>-->
+<!--            <field name="model">hr.applicant</field>-->
+<!--            <field name="inherit_id" ref="hr_recruitment.crm_case_form_view_job"/>-->
+<!--            <field name="priority" eval="30"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//div[@class='oe_button_box']" postition='inside'>-->
+<!--                    <button name="action_make_interview" class="oe_stat_button" icon="fa-calendar" type="object"-->
+<!--                            help="Schedule interview with this applicant">-->
+<!--                        <div class="o_field_widget o_stat_info">-->
+<!--                            <field name="related_meeting_count" widget="statinfo"/>-->
+<!--                        </div>-->
+<!--                    </button>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+    </data>
+</odoo>

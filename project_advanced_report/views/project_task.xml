@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="required_to_deadline_create_task" model="ir.ui.view">
+        <field name="name">Required Deadline Create Task</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.quick_create_task_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="replace">
+                <field name="company_id" invisible="1"></field>
+                <field name="project_id" invisible="1"></field>
+                <field name="project_message_user_ids" invisible="1"></field>
+                <field name="user_id" options="{'no_open': True,'no_create': True}"
+                       domain='[("id", "in", project_message_user_ids)]'/>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="predict_date_start" attrs="{'required': 1}"/>
+                <field name="planned_hours" widget="float_time"/>
+                <field name="date_deadline" attrs="{'required': 1}"/>
+                <field name="tag_ids" attrs="{'required': 1}" widget="many2many_tags"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="required_to_deadline_task" model="ir.ui.view">
+        <field name="name">Required Deadline Task</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_subtask']" position="after">
+                <button name="view_all_task_project" type="object" string="View All Task" class="oe_stat_button"
+                        icon="fa-tasks"/>
+            </xpath>
+            <xpath expr="//field[@name='date_deadline']" position="attributes">
+                <attribute name="attrs">{'required': 1}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='date_deadline']" position="before">
+                <field name="predict_date_start" attrs="{'required': 1}"/>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="replace">
+                <field name="project_id" invisible="1"></field>
+                <field name="project_message_user_ids" invisible="1"></field>
+                <field name="user_id" options="{'no_open': True,'no_create': True}"
+                       domain='[("id", "in", project_message_user_ids)]'/>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="effective_hours_for_customer" string="# For Account Manager - Update Hour Spent"
+                       groups="project_advanced_report.res_groups_can_update_customer_time_sheet_view"
+                       widget="float_time"/>
+            </xpath>
+        </field>
+    </record>
+    <!--update view for stage type-->
+    <record id="required_to_project_task_stage_type" model="ir.ui.view">
+        <field name="name">Required Type Create Stage</field>
+        <field name="model">project.task.type</field>
+        <field name="inherit_id" ref="project.task_type_edit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="stage_type" attrs="{'required': 1}"/>
+            </xpath>
+        </field>
+    </record>
+    <!--update filter-->
+    <record id="view_task_search_form_custom_filter_for_stage_text" model="ir.ui.view">
+        <field name="name">filter.stage.type</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_search_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <separator/>
+                <group expand="0" string="Filter Stage:">
+                    <filter string="Stage: Resource" name="filter_tasks_resource"
+                            domain="[('stage_type_text','=','1')]"/>
+                    <filter string="Stage: Todo" name="filter_tasks_todo" domain="[('stage_type_text','=','2')]"/>
+                    <filter string="Stage: QA" name="filter_tasks_qa" domain="[('stage_type_text','=','3')]"/>
+                    <filter string="Stage: Done" name="filter_tasks_done" domain="[('stage_type_text','=','4')]"/>
+                </group>
+                <separator/>
+                <group expand="1" string="Filter Time Sheet:">
+                    <filter string="TimeSheet: 0" name="filter_tasks_resource" domain="[('effective_hours','=','0')]"/>
+                    <filter string="TimeSheet: > 0" name="filter_tasks_resource"
+                            domain="[('effective_hours','>','0')]"/>
+                </group>
+                <separator/>
+                <group expand="1" string="Filter Time Sheet:">
+                    <filter string="Missed Deadline"
+                            domain="[('stage_type_text','=','2'),('date_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]"
+                            help="Missed Deadline" name='advanced_project_report_filter_missed_deadline'/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+    <!--update project task type view-->
+    <record id="task_type_edit_hide_projects" model="ir.ui.view">
+        <field name="name">project.task.type.form.hide.projects</field>
+        <field name="model">project.task.type</field>
+        <field name="inherit_id" ref="project.task_type_edit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='project_ids']" position="attributes">
+                <attribute name="attrs">{'invisible': 1}</attribute>
+            </xpath>
+        </field>
+    </record>
+    <!--update project task tree view-->
+    <record id="view_task_tree2_inherited_add_effective_hour" model="ir.ui.view">
+        <field name="name">project.task.tree.inherited.effective.hour</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_tree2_inherited"/>
+        <field eval="3" name="priority"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='planned_hours']" position="after">
+                <field name="effective_hours" widget="float_time" sum="TimeSheet Hours" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!--update project task time sheet total for customer-->
+    <record id="view_task_form_inherited_update_effective_hour_total" model="ir.ui.view">
+        <field name="name">project.task.tree.inherited.effective.hour</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
+        <field name="groups_id" eval="[(4, ref('project_advanced_report.res_groups_customer_time_sheet_view'))]"/>
+        <field eval="100" name="priority"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='project_hours']" position="replace">
+                <group class="oe_subtotal_footer oe_right" name="project_hours">
+                    <field name="effective_hours_for_customer" readonly="1" widget="float_time"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+    <record id="custom_tree_view_project_task" model="ir.ui.view">
+        <field name="name">Show up progress</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_tree2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='planned_hours']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='remaining_hours']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='progress']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='progress_rate']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="planned_days" sum="Planned Days"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

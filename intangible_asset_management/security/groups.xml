@@ -1,0 +1,37 @@
+<odoo>
+    <data>
+        <!--group user-->
+        <record model="res.groups" id="group_manager_intangible_asset">
+            <field name="name"># Manager Intangible Asset</field>
+<!--            <field name="implied_ids" eval="[(4, ref('base.group_system'))]"/>-->
+        </record>
+
+        <record model="res.groups" id="group_user_intangible_asset">
+            <field name="name"># User Intangible Asset</field>
+<!--            <field name="implied_ids" eval="[(4, ref('base.group_system'))]"/>-->
+        </record>
+
+        <record id="user_see_following_intangible_asset" model="ir.rule">
+            <field name="name">Users are allowed to access virtual asset they follow</field>
+            <field ref="intangible_asset_management.model_intangible_asset" name="model_id"/>
+            <field name="domain_force">[('message_partner_ids', 'in', [user.partner_id.id])]</field>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="groups" eval="[(4, ref('intangible_asset_management.group_user_intangible_asset'))]"/>
+        </record>
+
+        <record id="manager_see_all_intangible_asset" model="ir.rule">
+            <field name="name">Manager can see all virtual asset</field>
+            <field ref="intangible_asset_management.model_intangible_asset" name="model_id"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <!-- You can attach this rule to a specific group, Or make it Global -->
+            <field name="groups" eval="[(4, ref('intangible_asset_management.group_manager_intangible_asset'))]"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="report_task_miss_deadline_view_tree" model="ir.ui.view">
+            <field name="name">report_task_miss_deadline_view_tree</field>
+            <field name="model">report.task.miss.deadline</field>
+            <field name="arch" type="xml">
+                <tree string="report_task_miss_deadline_tree" create="0">
+                    <field name="project_id"/>
+                    <field name="task_id"/>
+                    <field name="user_id"/>
+                    <field name="department_id"/>
+                    <field name="date_deadline"/>
+                    <field name="stage_id"/>
+                    <field name="code"/>
+                    <field name="priority"/>
+                    <field name="project_manager"/>
+                    <field name="time_miss_deadline"/>
+                    <field name="date_scan"/>
+                </tree>
+            </field>
+        </record>
+        <record id="report_task_miss_deadline_search" model="ir.ui.view">
+            <field name="name">report_task_miss_deadline_search</field>
+            <field name="model">report.task.miss.deadline</field>
+            <field name="arch" type="xml">
+                <search string="">
+                    <field name="user_id"/>
+                    <field name="project_id"/>
+                    <field name="task_id"/>
+                    <field name="department_id"/>
+                    <field name="date_deadline"/>
+                    <field name="project_manager"/>
+                    <field name="code"/>
+                    <field name="date_scan"/>
+                    <group expand="0" string="Group By">
+                        <filter string="User" name="user_id" context="{'group_by': 'user_id'}"/>
+                        <filter string="Project" name="project_id" context="{'group_by': 'project_id'}"/>
+                        <filter string="Department" name="department_id" context="{'group_by': 'department_id'}"/>
+                        <filter string="Project Manager" name="project_manager" context="{'group_by': 'project_manager'}"/>
+                        <filter string="Date Scan" name="date_scan" context="{'group_by': 'date_scan'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="report_task_miss_deadline_action" model="ir.actions.act_window">
+            <field name="name">Report Task Miss Deadline</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">report.task.miss.deadline</field>
+            <field name="view_mode">tree</field>
+        </record>
+        <menuitem id="menu_open_task_miss_report" name="##Open All Report Task Miss Deadline" parent="project.menu_project_report"
+                  action="report_task_miss_deadline_action" sequence="2" groups="project_advanced_report.user_can_see_report_miss_deadline"/>
+    </data>
+</odoo>

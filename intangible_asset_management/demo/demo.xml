@@ -1,0 +1,7 @@
+<odoo>
+    <data>
+        <record id="intangible_manager" model="hr.employee">
+            <field name="name">Intangible Manager</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="survey.question" name="Question">
+            <t t-set="prefix" t-value="'%s_%s' % (survey.id, question.id)"/>
+            <div class="js_question-wrapper" t-att-id="prefix">
+                <h4>
+                    <span t-raw='question.question'/>
+                    <span t-if="question.constr_mandatory" class="text-danger">*</span>
+                </h4>
+                <div t-field='question.description' class="text-muted oe_no_empty"/>
+                <t t-if="question.question_type == 'free_text'">
+                    <t t-call="survey.free_text"/>
+                </t>
+                <t t-if="question.question_type == 'textbox'">
+                    <t t-call="survey.textbox"/>
+                </t>
+                <t t-if="question.question_type == 'numerical_box'">
+                    <t t-call="survey.numerical_box"/>
+                </t>
+                <t t-if="question.question_type == 'date'">
+                    <t t-call="survey.date"/>
+                </t>
+                <t t-if="question.question_type == 'datetime'">
+                    <t t-call="survey.datetime"/>
+                </t>
+                <t t-if="question.question_type == 'simple_choice'">
+                    <t t-call="survey.simple_choice"/>
+                </t>
+                <t t-if="question.question_type == 'multiple_choice'">
+                    <t t-call="survey.multiple_choice"/>
+                </t>
+                <t t-if="question.question_type == 'matrix'">
+                    <t t-call="survey.matrix"/>
+                </t>
+                <div class="js_errzone alert alert-danger" style="display:none;" role="alert"></div>
+            </div>
+        </template>
+        <template id="survey.multiple_choice" name="Multiple choice">
+            <div class="row">
+                <div t-foreach='question.labels_ids' t-as='label' t-attf-class="col-lg-#{question.column_nb}">
+                    <label t-att-class="' bg-success ' if quizz_correction and label.answer_score > 0.0 else None">
+                        <input type="checkbox" t-att-name="'%s_%s' % (prefix, label.id)" t-att-value='label.id'/>
+                        <span t-esc="label.generate()"/>
+                        <span t-raw='label.value'/>
+                    </label>
+                </div>
+                <div t-if='question.comments_allowed and question.comment_count_as_answer' class="js_ck_comments col-lg-12">
+                    <label>
+                        <input type="checkbox" t-att-name="'%s_%s' % (prefix, -1)" value="-1"/>
+                        <span t-field="question.comments_message"/>
+                    </label>
+                    <textarea type="text" class="form-control" rows="1" t-att-name="'%s_%s' % (prefix, 'comment')"/>
+                </div>
+                <div t-if='question.comments_allowed and not question.comment_count_as_answer' class="col-lg-12">
+                    <span t-field="question.comments_message"/>
+                    <textarea type="text" class="form-control" rows="1" t-att-name="'%s_%s' % (prefix, 'comment')" data-oe-survey-othert="1"/>
+                </div>
+            </div>
+        </template>
+        <template id="survey_question" inherit_id="survey.survey_header">
+            <xpath expr="//div[hasclass('row')]" position="after">
+                <t t-foreach='levels' t-as='questions'>
+                    <div class="row">
+                        <div style="display: flex;margin: 0 auto;">
+                            <t t-if="survey.questions_layout == 'page_per_question'">
+                                <t t-foreach='questions' t-as='question'>
+                                    <p>
+                                        <a role="button" class="btn btn-primary btn-lg preview_submit" t-attf-style="background-color:#{question[2]};color:#{question[3]}"
+                                           t-att-href="'/survey/question/%s/%s?page_or_question_id=%s' % (survey.access_token, answer.token, question[1])">
+                                            <t t-esc="question[0]"/>
+                                        </a>
+                                    </p>
+                                </t>
+                            </t>
+                            <t t-if="survey.questions_layout == 'page_per_section'">
+                                <t t-foreach='questions' t-as='question'>
+                                    <p>
+                                        <a role="button" class="btn btn-primary btn-lg preview_submit" t-attf-style="background-color:#{question[2]};color:#{question[3]}"
+                                           t-att-href="'/survey/question/%s/%s?page_or_question_id=%s' % (survey.access_token, answer.token, question[4])">
+                                            <t t-esc="question[0]"/>
+                                        </a>
+                                    </p>
+                                </t>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </xpath>
+        </template>
+        <!--profile certificate history-->
+        <template id="user_profile_certificate_history" inherit_id="website_profile.user_profile_content">
+            <xpath expr="//div[@id='profile_about_badge']" position="after">
+                <t t-if="channel">
+                    <div class="mb32">
+                        <h5 class="border-bottom pb-1">Certifications History</h5>
+                        <t t-call="advanced_slide.display_certificate_history"/>
+                    </div>
+                </t>
+            </xpath>
+        </template>
+        <template id="display_certificate_history">
+            <t t-if="certificates_history">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span>Certificate</span>
+                                    </th>
+                                    <th>
+                                        <span>Correct</span>
+                                    </th>
+                                    <th>
+                                        <span>UnCorrect</span>
+                                    </th>
+                                    <th>
+                                        <span>Score</span>
+                                    </th>
+                                    <th>
+                                        <span>Status</span>
+                                    </th>
+                                    <th>
+                                        <span>Date</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="certificates_history" t-as="line">
+                                    <tr>
+                                        <td>
+                                            <span t-esc="line['survey']"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="line['total_pass']"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="line['total_fail']"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="line['score']"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="line['status']"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="line['date']"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </t>
+            <t t-else="">
+                <p class="text-muted">No certifications history yet!</p>
+            </t>
+        </template>
+        <template id="courses_home_inherit_survey_all_list" inherit_id="website_slides.courses_home">
+            <xpath expr="//a[hasclass('o_wslides_home_all_slides')]" position="before">
+                <a class="nav-link nav-link d-flex" href="/slides-list">
+                    <i class="fa fa-bars  mr-1" style="line-height: 22px;"></i>
+                </a>
+            </xpath>
+        </template>
+        <template id='courses_home_list' name="All Course List">
+            <t t-set="head">
+                <t t-call-assets="web.pdf_js_lib" t-css="false"/>
+                <script type="text/javascript" src="/website_slides/static/lib/pdfslidesviewer/PDFSlidesViewer.js"></script>
+            </t>
+            <t t-set="body_classname" t-value="'o_wslides_body'"/>
+            <t t-call="website.layout">
+                <div id="wrap" t-attf-class="wrap mt-0">
+                    <div t-attf-class="position-relative text-primary pb-md-0 pt-2 pt-md-5 pb-3">
+                        <div class="container mt-5 mt-md-3 mt-xl-4">
+                            <div class="row align-items-end align-items-md-stretch">
+                                <!-- ==== Header Left ==== -->
+                                <div class="col-12 col-md-4 col-lg-3">
+                                    <div class="d-flex align-items-end justify-content-around h-100">
+                                        <t t-if="user">
+                                            <div t-field="user.image_1920" t-options='{"widget": "image", "class": "o_wslides_course_pict d-inline-block mb-2 mt-3 my-md-0"}' class="h-100"/>
+                                        </t>
+                                    </div>
+                                </div>
+
+                                <!-- ==== Header Right ==== -->
+                                <div class="col-12 col-md-8 col-lg-9 d-flex flex-column">
+                                    <div class="d-flex flex-column">
+                                        <t t-if="user">
+                                            <h1 t-field="user.name"/>
+                                        </t>
+                                        <t t-else="">
+                                            <h2>Register Account To Show More Information</h2>
+                                        </t>
+                                        <div>
+                                            <t t-foreach="challenges" t-as="challenge">
+                                                <t t-set="challenge_done" t-value="challenge in challenges_done if challenges_done else False"/>
+                                                <div t-attf-class="d-flex mb-3 align-items-center #{'o_wslides_entry_muted' if not challenge_done else ''}">
+                                                    <img class="mr-2"
+                                                         style="max-height: 36px;"
+                                                         t-att-src="website.image_url(challenge.reward_id, 'image_128')"
+                                                         t-att-alt="challenge.reward_id.name"/>
+                                                    <div class="flex-grow-1">
+                                                        <b class="text_small_caps" t-esc="challenge.reward_id.name"/>
+                                                        <br/>
+                                                        <span class="text-muted" t-esc="challenge.reward_id.description"/>
+                                                    </div>
+                                                    <i t-if="challenge_done" class="fa fa-check h5 text-success" aria-label="Done" title="Done" role="img"></i>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="o_wslides_course_main">
+                        <div class="container">
+                            <div class="row">
+                                <!-- Training Sidebar -->
+                                <div class="col-12 col-md-6 col-lg-5 mt-3 mt-md-0">
+                                    <div class="o_wslides_course_sidebar bg-white px-3 py-2 py-md-3 mb-3 mb-md-5">
+                                        <h5 class="m-0">Navigation</h5>
+                                        <ul id="myUL">
+                                            <li>
+                                                <span class="caret m-0">All Your Course</span>
+                                                <ul class="nested">
+                                                    <t t-foreach="channels_my" t-as="channel">
+                                                        <li>
+                                                            <t t-if="len(channel.slide_ids) > 0">
+                                                                <span class="caret">
+                                                                    <a t-attf-href="/slides/#{slug(channel)}" t-title="channel.name">
+                                                                        <t t-esc="channel.name"/>
+                                                                    </a>
+                                                                </span>
+                                                                <ul class="nested">
+                                                                    <t t-foreach="channel.category_data()" t-as="category">
+                                                                        <t t-if="category['category']">
+                                                                            <t t-if="category['total_slides'] > 0">
+                                                                                <li>
+                                                                                    <span class="caret">
+                                                                                        <span>
+                                                                                            <t t-esc="category['name']"/>
+                                                                                        </span>
+                                                                                    </span>
+                                                                                    <ul class="nested">
+                                                                                        <t t-foreach="category['slides']" t-as="slide">
+                                                                                            <li>
+                                                                                                <a t-attf-href="/slides/slide/#{slug(slide)}">
+                                                                                                    <t t-esc="slide['name']"/>
+                                                                                                </a>
+                                                                                            </li>
+                                                                                        </t>
+                                                                                    </ul>
+                                                                                </li>
+                                                                            </t>
+                                                                            <t t-else="">
+                                                                                <li>
+                                                                                    <span>
+                                                                                        <t t-esc="category['name']"/>
+                                                                                    </span>
+                                                                                </li>
+                                                                            </t>
+                                                                        </t>
+                                                                        <t t-else="">
+                                                                            <t t-if="category['total_slides'] > 0">
+                                                                                <t t-foreach="category['slides']" t-as="slide">
+                                                                                    <li>
+                                                                                        <a t-attf-href="/slides/slide/#{slug(slide)}">
+                                                                                            <t t-esc="slide['name']"/>
+                                                                                        </a>
+                                                                                    </li>
+                                                                                </t>
+                                                                            </t>
+                                                                        </t>
+                                                                    </t>
+                                                                </ul>
+                                                            </t>
+                                                            <t t-else="">
+                                                                <a t-attf-href="/slides/#{slug(channel)}" t-title="channel.name">
+                                                                    <t t-esc="channel.name"/>
+                                                                </a>
+                                                            </t>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-7">
+                                    <div class="o_wslides_home_content_section mb-3"
+                                         t-if="channels_popular">
+                                        <div class="row o_wslides_home_content_section_title align-items-center">
+                                            <div class="col">
+                                                <a href="/slides" class="float-right">Home</a>
+                                                <h5 class="m-0">Most popular courses</h5>
+                                                <hr class="mt-2 pb-1 mb-1"/>
+                                            </div>
+                                        </div>
+                                        <div class="row mx-n2 mt8">
+                                            <t t-foreach="channels_popular[:3]" t-as="channel">
+                                                <div class="col-md-4 col-sm-6 px-2 col-xs-12 d-flex flex-grow-1" t-call="website_slides.course_card"/>
+                                            </t>
+                                        </div>
+                                    </div>
+                                    <div class="o_wslides_home_content_section mb-3"
+                                         t-if="channels_newest">
+                                        <div class="row o_wslides_home_content_section_title align-items-center">
+                                            <div class="col">
+                                                <a href="/slides" class="float-right">Home</a>
+                                                <h5 class="m-0">Newest courses</h5>
+                                                <hr class="mt-2 pb-1 mb-1"/>
+                                            </div>
+                                        </div>
+                                        <div class="row mx-n2 mt8">
+                                            <t t-foreach="channels_newest[:3]" t-as="channel">
+                                                <div class="col-md-4 col-sm-6 px-2 col-xs-12 d-flex flex-grow-1" t-call="website_slides.course_card"/>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+<!--        <record model="ir.ui.view" id="inherit_survey_survey_view">-->
+<!--            <field name="name">Inherit Survey Survey</field>-->
+<!--            <field name="model">survey.survey</field>-->
+<!--            <field name="type">form</field>-->
+<!--            <field name="inherit_id" ref="survey.survey_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='title']" position="after">-->
+<!--                    <group>-->
+<!--                        <field name="maximum_score"/>-->
+<!--                    </group>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+    </data>
+</odoo>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-extend="mail.widget.Thread.MessageTracking">
+        <t t-jquery=".o_mail_thread_message_tracking" t-operation="replace">
+            <ul class="o_mail_thread_message_tracking">
+                <t t-foreach='message.getTrackingValues()' t-as='value'>
+                    <t t-if="message.getDocumentModel() == 'crm.lead'">
+                        <t t-if="value.changed_field == 'Expected Revenue'">
+                            <t t-if="message.getTrackingAccessRight() == 'True'">
+                                <li>
+                                    <t t-esc="value.changed_field"/>
+                                    <t t-if="value.old_value">
+                                        <span> <t t-esc="value.old_value || ((value.field_type !== 'boolean') and '')"/> </span>
+                                        <span t-if="value.old_value !== value.new_value" class="fa fa-long-arrow-right" role="img" aria-label="Changed" title="Changed"/>
+                                    </t>
+                                    <span t-if="value.old_value !== value.new_value">
+                                        <t t-esc="value.new_value || ((value.field_type !== 'boolean') and '')"/>
+                                    </span>
+                                </li>
+                            </t>
+                            <t t-else="">
+                                <t t-if="message.getTrackingValues().length == 1">
+                                    <li>******</li>
+                                </t>
+                            </t>
+                        </t>
+                        <t t-else="">
+                            <li>
+                                <t t-esc="value.changed_field"/>
+                                <t t-if="value.old_value">
+                                    <span> <t t-esc="value.old_value || ((value.field_type !== 'boolean') and '')"/> </span>
+                                    <span t-if="value.old_value !== value.new_value" class="fa fa-long-arrow-right" role="img" aria-label="Changed" title="Changed"/>
+                                </t>
+                                <span t-if="value.old_value !== value.new_value">
+                                    <t t-esc="value.new_value || ((value.field_type !== 'boolean') and '')"/>
+                                </span>
+                            </li>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <li>
+                            <t t-esc="value.changed_field"/>
+                            <t t-if="value.old_value">
+                                <span> <t t-esc="value.old_value || ((value.field_type !== 'boolean') and '')"/> </span>
+                                <span t-if="value.old_value !== value.new_value" class="fa fa-long-arrow-right" role="img" aria-label="Changed" title="Changed"/>
+                            </t>
+                            <span t-if="value.old_value !== value.new_value">
+                                <t t-esc="value.new_value || ((value.field_type !== 'boolean') and '')"/>
+                            </span>
+                        </li>
+                    </t>
+                </t>
+            </ul>
+        </t>
+    </t>
+</templates>

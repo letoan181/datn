@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<odoo>
+    <!-- Task Form View-->
+    <record id="view_task_form_add_testcase" model="ir.ui.view">
+        <field name="name">Add Tasecase to Task Form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='extra_info']" position="after">
+                <page string="Test Cases">
+                    <field name="test_id" mode="tree" context="{'default_project_id': project_id, 'default_task_id': id}">
+                        <tree string="Test Cases" create="1"
+                              delete="1">
+                            <button name="open_rec" string="Open" type="object"/>
+                            <field name="orderno"/>
+                            <field name="name"/>
+                            <field name="suitname"/>
+                            <field name="state" widget="tester_state_test" class="tc_state"/>
+                            <field name="dev_state" widget="state_test" class="tc_dev_state"/>
+                            <field name="precondition"/>
+                            <field name="stepNames"/>
+                            <field name="expectedResult"/>
+                            <field name="actualResult"/>
+                            <field name="imgLink" widget="url"/>
+                            <field name="criticality"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

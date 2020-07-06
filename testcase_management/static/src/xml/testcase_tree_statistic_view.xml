@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+    <t t-name="testcase.state">
+        <div class="testcase_state"></div>
+    </t>
+    <t t-extend="ListView.buttons" t-name="BillsListView.buttons">
+        <t t-jquery="div.o_list_buttons" t-operation="after">
+            <div id="statistic"></div>
+        </t>
+    </t>
+
+</templates>

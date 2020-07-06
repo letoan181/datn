@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="send_daily_report_to_customer" model="ir.ui.view">
+        <field name="name">send_daily_report_to_customer</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="send_daily_report_to_customer"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="customize_filter_timesheet_views" model="ir.ui.view">
+        <field name="name">Customize filter timesheet views</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='month']" position="after">
+                <filter name="today" string="Last Updated on Today"
+                        domain="[
+                                '&amp;',
+                                ('write_date', '>=', time.strftime('%Y-%m-%d 00:00:00')),
+                                ('write_date', '&lt;=', time.strftime('%Y-%m-%d 23:59:59')),
+                            ]"/>
+                <filter name="create_today" string="Created on Today"
+                        domain="[
+                                '&amp;',
+                                ('create_date', '>=', time.strftime('%Y-%m-%d 00:00:00')),
+                                ('create_date', '&lt;=', time.strftime('%Y-%m-%d 23:59:59')),
+                            ]"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

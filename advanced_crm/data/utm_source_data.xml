@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record forcecreate="True" id="advanced_crm_source_other" model="utm.source">
+            <field name="name"># Other</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,106 @@
+<odoo>
+    <data>
+        <!--        action-->
+        <record model="ir.actions.act_window" id="intangible_action">
+            <field name="name">Virtual Assets</field>
+            <field name="res_model">intangible.asset</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!--        tree view-->
+        <record model="ir.ui.view" id="intangible_tree_view">
+            <field name="name">Intangible Tree</field>
+            <field name="model">intangible.asset</field>
+            <field name="arch" type="xml">
+                <tree string="Intangible Tree">
+                    <field name="name" required="1"/>
+                    <field name="employee_ids" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--        form view-->
+        <record model="ir.ui.view" id="intangible_form_view">
+            <field name="name">Intangible Form</field>
+            <field name="model">intangible.asset</field>
+            <field name="arch" type="xml">
+                <form string="Virtual Form">
+                    <header>
+                        <field name="disable_approve_button" attrs="{'invisible': True}"/>
+                        <field name="disable_return_button" attrs="{'invisible': True}"/>
+                        <field name="id" attrs="{'invisible': True}"/>
+                        <button name="action_receive" type="object" class="oe_highlight" string="Approve"
+                                attrs="{'invisible': ['|',('disable_approve_button', '=', True),('id','=',False)]}"
+                                groups="intangible_asset_management.group_user_intangible_asset"/>
+                        <button name="action_refuse" type="object" string="Refuse"
+                                attrs="{'invisible': ['|',('disable_approve_button', '=', True),('id','=',False)]}"
+                                groups="intangible_asset_management.group_user_intangible_asset"/>
+                        <button name="action_return" type="object" string="Return to Company"
+                                attrs="{'invisible': ['|',('disable_return_button', '=', True),('id','=',False)]}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name" string="Name" placeholder="Name"/>
+                        </group>
+                        <group>
+                            <field name="description" widget="html" options="{'style-inline': true}"/>
+                        </group>
+                        <group>
+                            <field name="employee_ids" string="Used by" options="{'no_create': True}">
+                                <tree edit="false">
+                                    <field name="name"/>
+                                    <field name="department_id"/>
+                                </tree>
+                            </field>
+                            <field name="employee_approve_status" string="Status" options="{'no_create': True}">
+                                <tree delete="false" create="false">
+                                    <field name="employee_id"/>
+                                    <field name="status"/>
+                                    <button name="accept_return" string="Accept" type="object"
+                                            icon="fa-check text-success"
+                                            attrs="{'invisible': [('status', 'not in', ['return', 'refuse'])]}"
+                                            groups="intangible_asset_management.group_manager_intangible_asset"/>
+                                    <button name="decline_return" string="Decline" type="object"
+                                            icon="fa-times-circle text-danger"
+                                            attrs="{'invisible': [('status', 'not in', ['return', 'refuse'])]}"
+                                            groups="intangible_asset_management.group_manager_intangible_asset"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!--        subtype-->
+        <record id="inas_stage_changed" model="mail.message.subtype">
+            <field name="name">InAs Stage Changed</field>
+            <field name="res_model">intangible.asset</field>
+            <field name="default" eval="True"/>
+            <field name="description">InAs Stage changed</field>
+        </record>
+        <!--        search view-->
+        <record model="ir.ui.view" id="virtual_assets_search_view">
+            <field name="name">virtual_assets_search_view</field>
+            <field name="model">intangible.asset</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="employee_ids"/>
+                </search>
+            </field>
+        </record>
+
+        <!--menu-->
+        <menuitem id="intangible_assets_menu" name="Virtual Assets"
+                  parent="maintenance.menu_maintenance_title"
+                  action="intangible_action"
+                  sequence="4"/>
+    </data>
+</odoo>

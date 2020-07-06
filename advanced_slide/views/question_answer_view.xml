@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="question_answer_form">
+            <field name="name">question_answer_form</field>
+            <field name="model">question.answer</field>
+            <field name="arch" type="xml">
+                <form string="User Answer" create="false">
+                    <sheet>
+                        <group>
+                                <field name="question_title"/>
+                                <field name="text_score" attrs="{'invisible': [('question_type', '!=', 'free_text')]}"/>
+                                <field name="question_type" invisible="1"/>
+                                <field name="labels_ids"
+                                       attrs="{'invisible': [('question_type', '!=', 'multiple_choice')]}">
+                                    <tree>
+                                        <field name="value" string="Answer"/>
+                                        <field name="answer_score" string="Score"/>
+                                        <field name="is_correct" string="Correct"/>
+                                    </tree>
+                                </field>
+                            <field name="user_input_line_ids"
+                                   attrs="{'invisible': [('question_type', '!=', 'multiple_choice')]}">
+                                <tree>
+                                    <field name="value_suggested_label"/>
+                                    <field name="answer_type" invisible="1"/>
+                                    <field name="answer_score"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+<!--        <record model="ir.ui.view" id="question_answer_tree">-->
+<!--            <field name="name">question_answer_tree</field>-->
+<!--            <field name="model">question.answer</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <tree>-->
+<!--                    <field name="question_title"/>-->
+<!--                    <field name="is_correct"/>-->
+<!--                    <field name="question_type" invisible="1"/>-->
+<!--                    <button name="view_text_answer" string="Details" attrs="{'invisible': [('question_type','!=', 'free_text')]}"/>-->
+<!--                </tree>-->
+<!--            </field>-->
+<!--        </record>-->
+
+
+    </data>
+</odoo>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--        import file js-->
+        <template id="assets_backend" name="add_contact_line" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/project_permission/static/src/js/add_contact_line.js"/>
+            </xpath>
+        </template>
+        <record id="add_follower_popup_form" model="ir.ui.view">
+            <field name="name">add follower popup form</field>
+            <field name="model">project.add.follower</field>
+            <field name="arch" type="xml">
+                <form string="Add Follower">
+                    <sheet>
+                        <group>
+                            <field name="followers"/>
+                        </group>
+                        <footer>
+                            <div>
+                                <button name="add_followers" type="object" string="Add"/>
+                            </div>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Inherit Form View to Modify it -->
+        <record id="button_add_follower_form" model="ir.ui.view">
+            <field name="name">button.add.follower.form</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="priority" eval="17"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <!-- Add your fields or attributes here -->
+                    <div class="o_field_widget o_stat_info">
+                        <button name="add_project_follower" class="oe_stat_button" icon="fa-plus" type="object"
+                                string="Add followers" attrs="{'invisible' : [('can_edit', '=', False)]}"/>
+                        <field name="can_edit" invisible='True'/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="mass_action_change_task_testcase_view_form" model="ir.ui.view">
+            <field name="name">mass_action_change_task_testcase_view_form</field>
+            <field name="model">change.task.testcase</field>
+            <field name="arch" type="xml">
+                <form string="mass_action_change_task_testcase_form">
+                    <sheet>
+                        <group>
+                            <field name="test_case_ids"/>
+                            <field name="project_id" required="1"/>
+                            <field name="task_id" required="1" domain="[('project_id','=',project_id)]"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="confirm_change_task" type="object" string="Xác nhận"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.server" id="mass_change_task_of_testcase">
+            <field name="name">## Mass action change task of testcase</field>
+            <field name="model_id" ref="model_testcase_management_testcase_management"/>
+            <field name="binding_model_id" ref="model_testcase_management_testcase_management"/>
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                view = env.ref('testcase_management.mass_action_change_task_testcase_view_form')
+                action = {
+                'name':'## Mass action change task of testcase',
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_model': 'change.task.testcase',
+                'type': 'ir.actions.act_window',
+                'view_id': view.id,
+                'target': 'new',
+                'context': {
+                'default_test_case_ids': [(6, 0, records.ids)],
+                }
+                }
+            </field>
+        </record>
+    </data>
+</odoo>

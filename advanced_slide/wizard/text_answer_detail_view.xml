@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="text_answer_detail_form" model="ir.ui.view">
+            <field name="name">text_answer_detail_form</field>
+            <field name="model">text.answer.detail</field>
+            <field name="arch" type="xml">
+                <form string="text_answer_detail_form">
+                    <sheet>
+                        <group>
+                            <field name="question" readonly="1"/>
+                            <field name="answer" readonly="1"/>
+                            <field name="max_score" readonly="1"/>
+                            <field name="score"/>
+                        </group>
+                        <footer>
+                            <button string='Xác nhận' name="confirm" type="object" class="oe_highlight"/>
+                            <button string="Hủy" class="oe_link" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

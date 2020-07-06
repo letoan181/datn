@@ -1,0 +1,50 @@
+<odoo>
+    <data>
+        <template id="mass_disable_export_button" name="Export Disable" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript"
+                        src="/advanced_disable_export/static/js/disable_export_button.js"></script>
+            </xpath>
+        </template>
+        <record id="form_controller_config" model="ir.ui.view">
+            <field name="name">form_controller_config</field>
+            <field name="model">advanced.disable.action</field>
+            <field name="arch" type="xml">
+                <form string="Config">
+                    <group>
+                        <field name="name"/>
+                        <field name="model"/>
+                        <field name="type"/>
+                        <field name="group" widget="many2many_tags"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record id="tree_controller_config" model="ir.ui.view">
+            <field name="name">tree_controller_config</field>
+            <field name="model">advanced.disable.action</field>
+            <field name="arch" type="xml">
+                <tree string="Config">
+                    <field name="name"/>
+                    <field name="model"/>
+                    <field name="type"/>
+                    <field name="group" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_controller_configure">
+            <field name="name">Action Controller Configure</field>
+            <field name="res_model">advanced.disable.action</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!--        <menuitem id="action_controller_config" parent="base.menu_custom" action="action_controller_config"-->
+        <!--                  sequence="30"/>-->
+        <menuitem
+                id="action_controller_config_menu"
+                name="#Action Controller Config"
+                parent="base.menu_custom"
+                action = "action_controller_configure"
+                sequence="4"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,30 @@
+<odoo>
+  <data>
+      <!-- Inherit Form View to Modify it -->
+      <record id="adjust_task_title__quick_form" model="ir.ui.view">
+          <field name="name">Task title</field>
+          <field name="model">project.task</field>
+          <field name="inherit_id" ref="project.quick_create_task_form"/>
+          <field name="arch" type="xml">
+
+              <xpath expr="//field[@name='name']" position="replace">
+                  <field name="name"/>
+              </xpath>
+
+          </field>
+      </record>
+      <!-- Inherit Form View to Modify it -->
+      <record id="adjust_task_title_form" model="ir.ui.view">
+          <field name="name">Task title</field>
+          <field name="model">project.task</field>
+          <field name="inherit_id" ref="project.view_task_form2"/>
+          <field name="arch" type="xml">
+
+              <xpath expr="//field[@name='name']" position="replace">
+                  <field name="name"/>
+              </xpath>
+
+          </field>
+      </record>
+  </data>
+</odoo>

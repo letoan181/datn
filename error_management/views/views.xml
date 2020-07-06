@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <template id="assets_backend_error_management" name="Management Error" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript"
+                        src="/error_management/static/src/js/error_management.js"/>
+            </xpath>
+        </template>
+    </data>
+</odoo>

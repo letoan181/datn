@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Journal Items -->
+        <!--<record id="additional_view_move_line_form_team_id" model="ir.ui.view">-->
+        <!--<field name="name">additional.account.move.line.form.team_id</field>-->
+        <!--<field name="inherit_id" ref="account.view_move_line_form"/>-->
+        <!--<field name="model">account.move.line</field>-->
+        <!--<field eval="20" name="priority"/>-->
+        <!--<field name="arch" type="xml">-->
+        <!--<xpath expr="//field[@name='move_id']" position="after">-->
+        <!--<field name="team_id"/>-->
+        <!--</xpath>-->
+        <!--</field>-->
+        <!--</record>-->
+        <record id="additional_view_move_line_tree_team_id" model="ir.ui.view">
+            <field name="name">additional.account.move.line.tree.team_id</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_tree"/>
+            <field eval="10" name="priority"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='move_id']" position="after">
+                    <field name="team_id"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="action_account_move_line_search_team_id" model="ir.ui.view">
+            <field name="name">account.move.line.team_id</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_account_move_line_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='move_id']" position="after">
+                    <field name="team_id"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <!--force update journal item-->
+        <!-- Journal Items -->
+        <act_window id="force_update_journal"
+                    name="# Account Move: Force Update"
+                    binding_model="account.move"
+                    res_model="account.move.force.update.amount"
+                    view_mode="form"
+                    target="new"
+                    context="{'default_account_move_id': active_id}"
+                    groups="base.group_system"/>
+
+        <record id="wizard_account_move_force_update_amount_form_view" model="ir.ui.view">
+            <field name="name">wizard.account.move.force.update.amount.form.view</field>
+            <field name="model">account.move.force.update.amount</field>
+            <field name="arch" type="xml">
+                <form string="Attendee: Join Now">
+                    <group>
+                        <field name="account_moves" options="{'no_create_edit': True, 'no_quick_create': True}"/>
+                        <field name="update_amount"/>
+                    </group>
+
+                    <footer>
+                        <button name="force_update_amount_now" type="object"
+                                string="Update Now" class="oe_highlight"/>
+                        or
+
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <!--update account move line tree view-->
+        <record id="additional_view_move_line_tree_current_time_balance" model="ir.ui.view">
+            <field name="name">account.move.line.current_time_balance</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='amount_currency']" position="after">
+                    <field name="current_time_balance_sequence"/>
+
+                    <field name="current_time_balance" widget='monetary'
+                           options="{'currency_field': 'currency_id'}"/>
+                </xpath>
+                <!--<xpath expr="//tree" position="attributes">-->
+                <!--<attribute name="banner_route">1111</attribute>-->
+                <!--<attribute name="banner_route" evals="context.get()">/advanced_invoice/account_move_line_onboarding/1</attribute>-->
+                <!--</xpath>-->
+            </field>
+        </record>
+    </data>
+</odoo>

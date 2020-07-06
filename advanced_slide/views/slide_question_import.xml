@@ -1,0 +1,73 @@
+<odoo>
+    <data>
+        <template id="survey_assets_backend" name="survey notify assets" inherit_id="survey.survey_assets">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/advanced_slide/static/src/js/survey_question_preview.js"></script>
+            </xpath>
+        </template>
+        <template id="survey_assets_backend_home" name="survey notify assets" inherit_id="advanced_slide.courses_home_list">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/advanced_slide/static/src/css/style.css"/>
+            </xpath>
+        </template>
+        <template id="assets_frontend_inherit_1" name="event assets 1" inherit_id="website.assets_frontend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/advanced_slide/static/src/js/toggle_slidebar.js"></script>
+            </xpath>
+        </template>
+        <record id="wizard_slide_question_import" model="ir.ui.view">
+            <field name="name">wizardslide.question.import</field>
+            <field name="model">slide.question.import</field>
+            <field name="arch" type="xml">
+                <form string="# Import Questions from XML">
+                    <group>
+                        <field name="import_file"/>
+                        <field name="file_name" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button name="confirm_import_question" type="object"
+                                string="Import" class="oe_highlight"/>
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="view_slide_channel_form_inherit" model="ir.ui.view">
+            <field name="name">view_slide_channel_form_inherit</field>
+            <field name="model">slide.channel</field>
+            <field name="inherit_id" ref="website_slides.view_slide_channel_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='is_published']" position="after">
+                    <button name="is_published_toggle" type="object" icon="fa-star" class="oe_stat_button">
+                        <span class="text-success" attrs="{'invisible': [('is_published', '=', True)]}">Published</span>
+                        <span class="text-danger" attrs="{'invisible': [('is_published', '=', False)]}">Unpublished</span>
+                    </button>
+                </xpath>
+                <!--                <xpath expr="//field[@name='slide_ids']/tree/field[@name='is_category']" position="after">-->
+                <!--                    <field string="Published" name="is_published" widget="boolean_toggle"/>-->
+                <!--                </xpath>-->
+            </field>
+        </record>
+        <record id="view_slide_slide_form_inherit" model="ir.ui.view">
+            <field name="name">view_slide_slide_form_inherit</field>
+            <field name="model">slide.slide</field>
+            <field name="inherit_id" ref="website_slides.view_slide_slide_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='is_published']" position="after">
+                    <button name="is_published_toggle" type="object" icon="fa-star" class="oe_stat_button">
+                        <span class="text-success" attrs="{'invisible': [('is_published', '=', True)]}">Published</span>
+                        <span class="text-danger" attrs="{'invisible': [('is_published', '=', False)]}">Unpublished</span>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+        <act_window id="slide_question_import_action_new"
+                    name="# Import Question from XML"
+                    binding_model="survey.survey"
+                    res_model="slide.question.import"
+                    view_mode="form"
+                    target="new"
+        />
+    </data>
+</odoo>

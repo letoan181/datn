@@ -1,0 +1,146 @@
+<odoo>
+    <data>
+        <!--        display timetable-->
+        <record id="action_org_time_table" model="ir.actions.client">
+            <field name="name">Employee TimeTable</field>
+            <field name="tag">time_working_table</field>
+        </record>
+
+        <template id="assets_backend" name="TimeTable Assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script src="/employee_time_table/static/js/org_time_table.js"></script>
+            </xpath>
+        </template>
+        <!--        edit employee form -->
+        <record id="employee_inherit_form" model="ir.ui.view">
+            <field name="name">Employee Form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='birthday']" position="attributes">
+                    <attribute name="groups">employee_time_table.group_see_birthday</attribute>
+                </xpath>
+            </field>
+        </record>
+        <!--        edit employee tree-->
+        <record id="employee_inherit_tree" model="ir.ui.view">
+            <field name="name">Employee Form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="create_date" groups="employee_time_table.group_see_create_date"/>
+                    <field name="month_of_birth" groups="employee_time_table.group_see_birthday"/>
+                    <field name="date_month_of_birth" groups="employee_time_table.group_see_birthday"/>
+                    <field name="birthday" groups="employee_time_table.group_see_birthday"/>
+                </xpath>
+                <xpath expr="//field[@name='work_phone']" position="after">
+                    <field name="mobile_phone"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--        mass action-->
+        <act_window name="Change Created Date"
+                    res_model="customer.change.create.date"
+                    binding_model="hr.employee"
+                    view_mode="form"
+                    id="customer_change_create_date_action"
+                    groups="employee_time_table.group_see_create_date"
+                    target="new"
+        />
+        <record id="customer_change_create_date" model="ir.ui.view">
+            <field name="name">advanced.view.create.date</field>
+            <field name="model">customer.change.create.date</field>
+            <field name="arch" type="xml">
+                <form string="Add Created Date">
+                    <sheet>
+                        <group>
+                            <field name="employee_ids"/>
+                            <field name="create_date_change"/>
+                        </group>
+                        <footer>
+                            <button name="mass_update" type="object"
+                                    string="Add Created Date" class="oe_highlight"/>
+                            or
+                            <button special="cancel" string="Cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!--display dayoff model-->
+        <record model="ir.actions.act_window" id="dayoff_list_action">
+            <field name="name">Set Dayoff</field>
+            <field name="res_model">attendance.day.off</field>
+            <field name="view_mode">calendar,tree,form</field>
+        </record>
+
+        <record model="ir.ui.view" id="dayoff_tree_view">
+            <field name="name">Dayoff Tree</field>
+            <field name="model">attendance.day.off</field>
+            <field name="arch" type="xml">
+                <tree string="Dayoff Tree" editable="bottom">
+                    <field name="set_day" required="1"/>
+                    <field name="description" required="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="dayoff_form_view">
+            <field name="name">Dayoff Form</field>
+            <field name="model">attendance.day.off</field>
+            <field name="arch" type="xml">
+                <form string="Dayoff Form">
+                    <sheet>
+                        <group>
+                            <field name="set_day"/>
+                            <field name="description" required="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="dayoff_calendar_view" model="ir.ui.view">
+            <field name="name">attendance.day.off.calendar.view</field>
+            <field name="model">attendance.day.off</field>
+            <field name="priority" eval="30"/>
+            <field name="arch" type="xml">
+                <calendar string="Leads Generation" mode="month" date_start="set_day" hide_time="true" quick_add="False">
+                    <field name="description"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!-- Inherit Form View to Modify it -->
+
+        <record id="month_of_birth_filter" model="ir.ui.view">
+            <field name="name">Month of birth</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='message_needaction']" position="after">
+                    <separator/>
+                    <filter name="birthday" string="Date Of Birth In Current Month"
+                            domain="[('birthday','&lt;=',(context_today()+relativedelta(day=31)).strftime('%%Y-%%m-%%d')),
+                                ('birthday','&gt;=',(context_today()-relativedelta(day=1)).strftime('%%Y-%%m-%%d'))]" groups="employee_time_table.group_see_birthday"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--menu-->
+        <menuitem id="menu_time_table_employee"
+                  name="#TimeTable"
+                  parent="hr.menu_hr_root"
+        />
+        <menuitem id="set_dayoff" name="Dayoff"
+                  parent="menu_time_table_employee"
+                  action="dayoff_list_action"
+                  sequence="15"/>
+        <menuitem id="menu_time_table" name="Timetable"
+                  parent="menu_time_table_employee"
+                  action="action_org_time_table"
+                  sequence="30"/>
+    </data>
+</odoo>

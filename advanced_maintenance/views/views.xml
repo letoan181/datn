@@ -1,0 +1,53 @@
+<odoo>
+    <data>
+        <record id="advanced_maintenance_form_equipment_tag" model="ir.ui.view">
+            <field name="name">Advanced Maintenance - Equipment</field>
+            <field name="model">maintenance.equipment</field>
+            <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='category_id']" position="after">
+                    <field name="equipment_tags" widget="many2many_tags"/>
+                    <field name="equipment_location" required="True"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="advanced_hr_equipment_view_kanban_equipment_tag" model="ir.ui.view">
+            <field name="name">Advanced Maintenance - Equipment</field>
+            <field name="model">maintenance.equipment</field>
+            <field name="inherit_id" ref="maintenance.hr_equipment_view_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('oe_kanban_content')]" position="after">
+                    <field name="equipment_tags"/>
+                    <field name="equipment_location" required="True"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <!--menu-->
+        <record id="view_maintenance_equipment_tag_tree" model="ir.ui.view">
+            <field name="name">Documents</field>
+            <field name="model">maintenance.equipment.tag</field>
+            <field name="arch" type="xml">
+                <tree string="Name">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_setting_maintenance_equipment_tag_list" model="ir.actions.act_window">
+            <field name="name">Equipment Tags</field>
+            <field name="res_model">maintenance.equipment.tag</field>
+            <field name="view_id" ref="view_maintenance_equipment_tag_tree"/>
+        </record>
+
+        <menuitem id="advanced_maintenance" name="Advanced Maintenance" parent="base.menu_custom"
+                  groups="base.group_no_one"/>
+        <menuitem id="advanced_maintenance_equipment_tag" name="Equipment Tags" parent="advanced_maintenance"
+                  groups="base.group_no_one"
+                  action="action_setting_maintenance_equipment_tag_list" sequence="1"/>
+        <menuitem id="base_maintenance_advanced_maintenance_equipment_tag" name="Equipment Tags"
+                  parent="maintenance.menu_maintenance_configuration"
+                  action="action_setting_maintenance_equipment_tag_list" sequence="1"/>
+    </data>
+</odoo>

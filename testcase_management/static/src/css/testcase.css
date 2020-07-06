@@ -1,0 +1,34 @@
+.tc_state{
+    color: #fff;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.green {
+    background: green;
+
+}
+.grey {
+    background: grey;
+
+}
+.red {
+    background: red;
+
+}
+.orange {
+    background: orange;
+
+}
+.purple {
+    background: purple;
+
+}
+
+
+.tc_dev_state
+{
+    color: #fff;
+    padding: 5px;
+    border-radius: 4px;
+}

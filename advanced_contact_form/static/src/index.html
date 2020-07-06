@@ -1,0 +1,70 @@
+<div>
+    <form action="http://localhost:8069/contact_form/crm.lead" method="post"
+          enctype="multipart/form-data" data-editable-form="false">
+        <input type="hidden" name="model_name" value="crm.lead"/>
+        <input type="hidden" name="success_page" value="http://localhost:8069/contactus-thank-you"/>
+        <input type="hidden" name="source" value="6"/>
+        <div class="form-group row form-field o_website_form_required_custom">
+            <label class="col-lg-3 col-md-4 col-form-label" for="contact_name" data-oe-model="ir.ui.view"
+                   data-oe-id="613"
+                   data-oe-field="arch" data-oe-xpath="/data/xpath/div/form[1]/div[1]/label[1]">Your Name</label>
+            <div class="col-lg-7 col-md-8">
+                <input type="text" class="form-control o_website_form_input" name="contact_name" required=""
+                       data-oe-model="ir.ui.view" data-oe-id="613" data-oe-field="arch"
+                       data-oe-xpath="/data/xpath/div/form[1]/div[1]/div[1]/input[1]" value=""/>
+            </div>
+        </div>
+        <div class="form-group row form-field">
+            <label class="col-lg-3 col-md-4 col-form-label" for="phone" data-oe-model="ir.ui.view" data-oe-id="613"
+                   data-oe-field="arch" data-oe-xpath="/data/xpath/div/form[1]/div[2]/label[1]">Phone Number</label>
+            <div class="col-lg-7 col-md-8">
+                <input type="text" class="form-control o_website_form_input" name="phone" data-oe-model="ir.ui.view"
+                       data-oe-id="613" data-oe-field="arch"
+                       data-oe-xpath="/data/xpath/div/form[1]/div[2]/div[1]/input[1]"
+                       value=""/>
+            </div>
+        </div>
+        <div class="form-group row form-field o_website_form_required_custom">
+            <label class="col-lg-3 col-md-4 col-form-label" for="email_from" data-oe-model="ir.ui.view" data-oe-id="613"
+                   data-oe-field="arch" data-oe-xpath="/data/xpath/div/form[1]/div[3]/label[1]">Email</label>
+            <div class="col-lg-7 col-md-8">
+                <input type="text" class="form-control o_website_form_input" name="email_from" required=""
+                       data-oe-model="ir.ui.view" data-oe-id="613" data-oe-field="arch"
+                       data-oe-xpath="/data/xpath/div/form[1]/div[3]/div[1]/input[1]" value=""/>
+            </div>
+        </div>
+        <div class="form-group row form-field o_website_form_required_custom">
+            <label class="col-lg-3 col-md-4 col-form-label" for="partner_name" data-oe-model="ir.ui.view"
+                   data-oe-id="613"
+                   data-oe-field="arch" data-oe-xpath="/data/xpath/div/form[1]/div[4]/label[1]">Your Company</label>
+            <div class="col-lg-7 col-md-8">
+                <input type="text" class="form-control o_website_form_input" name="partner_name" required=""
+                       data-oe-model="ir.ui.view" data-oe-id="613" data-oe-field="arch"
+                       data-oe-xpath="/data/xpath/div/form[1]/div[4]/div[1]/input[1]" value=""/>
+            </div>
+        </div>
+        <div class="form-group row form-field o_website_form_required">
+            <label class="col-lg-3 col-md-4 col-form-label" for="name" data-oe-model="ir.ui.view" data-oe-id="613"
+                   data-oe-field="arch" data-oe-xpath="/data/xpath/div/form[1]/div[5]/label[1]">Subject</label>
+            <div class="col-lg-7 col-md-8">
+                <input type="text" class="form-control o_website_form_input" name="name" required=""
+                       data-oe-model="ir.ui.view" data-oe-id="613" data-oe-field="arch"
+                       data-oe-xpath="/data/xpath/div/form[1]/div[5]/div[1]/input[1]" value=""/>
+            </div>
+        </div>
+        <div class="form-group row form-field o_website_form_required_custom">
+            <label class="col-lg-3 col-md-4 col-form-label" for="description" data-oe-model="ir.ui.view"
+                   data-oe-id="613"
+                   data-oe-field="arch" data-oe-xpath="/data/xpath/div/form[1]/div[6]/label[1]">Your Question</label>
+            <div class="col-lg-7 col-md-8">
+                <textarea class="form-control o_website_form_input" name="description" required=""></textarea>
+            </div>
+        </div>
+        <div class="form-group row" data-oe-model="ir.ui.view" data-oe-id="613" data-oe-field="arch"
+             data-oe-xpath="/data/xpath/div/form[1]/div[7]">
+            <div class="offset-lg-3 offset-md-4 col-md-8 col-lg-7">
+                <button class="btn btn-primary btn-lg o_website_form_send" type="submit">Send</button>
+            </div>
+        </div>
+    </form>
+</div>

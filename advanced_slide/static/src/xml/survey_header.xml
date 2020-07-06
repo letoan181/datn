@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template xml:space="preserve">
+    <t t-extend="Header">
+        <t t-jquery="div.row" t-operation="after">
+            <t t-foreach='levels' t-as='questions'>
+               <div class="row">
+                    <div style="display: flex;margin: 0 auto;">
+                        <t t-if="survey.questions_layout == 'page_per_question'">
+                            <t t-foreach='questions' t-as='question'>
+                                <p><a role="button" class="btn btn-primary btn-lg preview_submit" t-attf-style="background-color:#{question[2]};color:#{question[3]}" t-att-href="'/survey/question/%s/%s?page_or_question_id=%s' % (survey.access_token, answer.token, question[1])"><t t-esc="question[0]"/></a></p>
+                            </t>
+                        </t>
+                        <t t-if="survey.questions_layout == 'page_per_section'">
+                             <t t-foreach='questions' t-as='question'>
+                                <p><a role="button" class="btn btn-primary btn-lg preview_submit" t-attf-style="background-color:#{question[2]};color:#{question[3]}" t-att-href="'/survey/question/%s/%s?page_or_question_id=%s' % (survey.access_token, answer.token, question[4])"><t t-esc="question[0]"/></a></p>
+                            </t>
+                        </t>
+                    </div>
+               </div>
+            </t>
+        </t>
+    </t>
+</template>

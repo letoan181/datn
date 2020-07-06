@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_user_roles,user_roles.user_roles,model_user_roles,,1,1,1,1
+access_user_roles_line,user_roles.user_roles_line,model_user_roles_line,,1,1,1,1
+access_user_change_password_login,user_roles.change_password_login,model_change_password_login,,1,1,1,1
+access_user_roles_admin,user_roles_admin,model_user_roles,user_roles.admin_user_roles,1,1,1,1
+
+

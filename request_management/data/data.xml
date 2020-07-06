@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <record id="request_management_notifications" model="mail.message.subtype">
+            <field name="name"># Request Management - Approved</field>
+            <field name="res_model">advanced.request.management</field>
+            <field name="default" eval="True"/>
+            <field name="description">Request approved</field>
+        </record>
+    </data>
+</odoo>

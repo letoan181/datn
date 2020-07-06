@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+<!--        <record model="ir.ui.view" id="inherit_survey_question_view">-->
+<!--            <field name="name">Inherit Survey Question</field>-->
+<!--            <field name="model">survey.question</field>-->
+<!--            <field name="type">form</field>-->
+<!--            <field name="inherit_id" ref="survey.survey_question_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='quizz_mark']" position="replace">-->
+<!--                    <field name="quizz_mark"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+    </data>
+</odoo>

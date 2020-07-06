@@ -1,0 +1,72 @@
+<odoo>
+    <record id="partner_view_form_inherit_zendesk" model="ir.ui.view">
+        <field name="name">Partner view form inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="zendesk_info" string="Zendesk Infomation">
+                    <form>
+                        <sheet>
+                            <group>
+                                <field name="zendesk_id"/>
+                                <field name="zendesk_role"/>
+                                <field name="zendesk_created_at"/>
+                                <field name="collaborate_ticket"
+                                       attrs="{'invisible' : [('zendesk_role','=','end-user')]}">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="created_at"/>
+                                    </tree>
+                                </field>
+                                <field name="request_ticket" attrs="{'invisible' : ['|',('zendesk_role','=','agent'),
+                                                                                        ('zendesk_role','=','admin')]}">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="created_at"/>
+                                    </tree>
+                                </field>
+                                <field name="assign_ticket"
+                                       attrs="{'invisible' : [('zendesk_role','=','end-user')]}">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="created_at"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </sheet>
+                    </form>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="partner_search_view_inherit_zendesk" model="ir.ui.view">
+        <field name="name">Partner Search View Inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <filter name="type_company" position="after">
+                <filter string="Zendesk Contact" name="is_zendesk" domain="[('zendesk_role','!=',None)]"/>
+            </filter>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="zendesk_contact_graph_view">
+        <field name="name">Zendesk Graph</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <graph string="Report Contact" type="line">
+                <field name="zendesk_created_at" interval="day" type="row"/>
+            </graph>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="zendesk_contact_report_act">
+        <field name="name">Contact Report</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">graph</field>
+        <field name="domain">[('zendesk_created_at','!=',None)]</field>
+    </record>
+
+</odoo>

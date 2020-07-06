@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_task_timeline" model="ir.ui.view">
+        <field name="model">project.task</field>
+        <field name="type">timeline</field>
+        <field name="arch" type="xml">
+            <timeline date_start="date_start"
+                      date_stop="date_end"
+                      string="Tasks"
+                      default_group_by="user_id"
+                      event_open_popup="true"
+                      zoomKey="ctrlKey"
+                      colors="#ec7063:user_id == false;#2ecb71:kanban_state=='done';"
+                      dependency_arrow="task_dependency_ids">
+                <field name="user_id"/>
+                <templates>
+                    <div t-name="timeline-item">
+                        <div t-esc="record.display_name"/>
+                        Assigned to:
+                        <span t-esc="record.user_id[1]"/>
+                    </div>
+                </templates>
+            </timeline>
+        </field>
+    </record>
+    <record id="view_task_timeline_action" model="ir.actions.act_window">
+        <field name="name">Inventory Overview</field>
+        <field name="res_model">project.task</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">form,timeline</field>
+    </record>
+    <menuitem
+            action="view_task_timeline_action"
+            id="advanced_project_task_report_timeline" sequence="100"
+            parent="project.menu_main_pm"
+            name="Task Timeline"/>
+</odoo>

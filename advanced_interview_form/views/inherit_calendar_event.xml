@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="calendar_inherit_interview_view_form">
+            <field name="name">Calendar Inherit</field>
+            <field name="model">calendar.event</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_open_calendar_event']" position="after">
+                    <field name="survey_id" invisible="1"/>
+                    <field name="response_id" invisible="1"/>
+                    <button string="Interview" type="object" name="action_start_interview" icon="fa-user"
+                            class="btn-link float-right"
+                            attrs="{'invisible': ['|', ('res_model', '!=', 'hr.applicant'), ('res_id', '=', False)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_ids']" position="after">
+                    <group>
+                        <field name="sum_score_interview"
+                               attrs="{'invisible': ['|', ('res_model', '!=', 'hr.applicant'), ('res_id', '=', False)]}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

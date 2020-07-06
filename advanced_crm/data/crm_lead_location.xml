@@ -1,0 +1,12 @@
+<odoo>
+    <data>
+        <record forcecreate="True" id="international" model="crm.lead.location">
+            <field name="name"># International</field>
+            <field name="owner_user" ref="base.user_admin"/>
+        </record>
+        <record forcecreate="True" id="domestic" model="crm.lead.location">
+            <field name="name"># Domestic</field>
+            <field name="owner_user" ref="base.user_admin"/>
+        </record>
+    </data>
+</odoo>

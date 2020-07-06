@@ -1,0 +1,60 @@
+<odoo>
+    <data>
+        <record model="ir.cron" forcecreate="True" id="mass_update_user">
+            <field name="name"># Event: User Scheduler</field>
+            <field name="model_id" ref="model_res_users"/>
+            <field name="state">code</field>
+            <field name="code">model.mass_update_employee()</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="active" eval="False"/>
+        </record>
+        <record model="ir.cron" forcecreate="True" id="mass_update_related_sales_partner_for_contact">
+            <field name="name"># Users: Mass update related Sales Partner for Contacts</field>
+            <field name="model_id" ref="model_res_users"/>
+            <field name="state">code</field>
+            <field name="code">model.mass_update_related_contact()</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="active" eval="False"/>
+        </record>
+        <record id="contact_rule_user" model="ir.rule">
+            <field name="name">user.see.relate.contact</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="domain_force">[('employee', '=', True)]</field>
+            <field name="groups" eval="[(4, ref('advanced_contact.internal_employee_contact'))]"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_read" eval="1"/>
+        </record>
+        <record id="contact_rule_hr_user" model="ir.rule">
+            <field name="name">hr.see.own.contact.vendor</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="domain_force">['|',('supplier_rank', '>', 0),'|',('employee', '=', True),('create_uid','=',
+                user.id)]
+            </field>
+            <field name="groups" eval="[(4, ref('advanced_contact.hr_employee_contact'))]"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_read" eval="1"/>
+        </record>
+        <record id="contact_rule_admin" model="ir.rule">
+            <field name="name">see.all.contact</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('base.group_erp_manager'))]"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_read" eval="1"/>
+        </record>
+    </data>
+</odoo>

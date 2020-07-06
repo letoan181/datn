@@ -1,0 +1,28 @@
+<odoo>
+    <data>
+        <!--action_account_moves_all_statement action-->
+        <record id="action_account_moves_all_statement" model="ir.actions.act_window">
+            <field name="context">{'journal_type':'general'}</field>
+            <field name="name">All Statements</field>
+            <field name="res_model">account.move.line</field>
+            <field name="view_id" ref="account.view_move_line_tree"/>
+            <field name="view_mode">tree,pivot,graph,form,kanban</field>
+
+        </record>
+        <!--inherit dashboard kanban view-->
+        <record id="account_journal_dashboard_kanban_view_inherit_additional" model="ir.ui.view">
+            <field name="name">account.journal.dashboard.kanban.additional</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.account_journal_dashboard_kanban_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//t[@t-name='JournalManage']//div//div[hasclass('o_kanban_manage_view')]"
+                       position="inside">
+                    <div>
+                        <a role="menuitem" type="object" name="action_account_moves_all_statement"># All Statements
+                        </a>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

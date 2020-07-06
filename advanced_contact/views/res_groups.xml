@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <record id="internal_employee_contact" model="res.groups">
+            <field name="name"># Employee - can see only Employee Contacts</field>
+        </record>
+        <record id="hr_employee_contact" model="res.groups">
+            <field name="name"># HR - can see Employee + Vendor Contacts</field>
+        </record>
+    </data>
+</odoo>

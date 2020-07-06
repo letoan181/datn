@@ -1,0 +1,46 @@
+<odoo>
+    <data>
+        <record model="res.groups" id="admin_user_roles">
+            <field name="name">#1 . Admin User Roles</field>
+        </record>
+
+        <record model="res.groups" id="manager_user_roles">
+            <field name="name">#2. Manager User Roles</field>
+        </record>
+
+<!--        <record model="res.groups" id="create_user_roles">-->
+<!--            <field name="name">#3. Create User Roles</field>-->
+<!--        </record>-->
+
+<!--         <record model="ir.rule" id="admin_create_user_roles">-->
+<!--            <field name="name">Admin Create User Role</field>-->
+<!--            <field name="model_id" ref="base.model_res_users"/>-->
+<!--            <field name="perm_read" eval="True"/>-->
+<!--            <field name="perm_write" eval="True"/>-->
+<!--            <field name="perm_create" eval="True"/>-->
+<!--            <field name="perm_unlink" eval="True"/>-->
+<!--            <field name="groups" eval="[(4,ref('user_roles.create_user_roles'))]" />-->
+<!--        </record>-->
+
+        <record model="ir.rule" id="admin_user_roles_domain">
+            <field name="name">Admin readonly</field>
+            <field name="model_id" ref="model_user_roles"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="groups" eval="[(4,ref('admin_user_roles'))]" />
+            <field name="domain_force">[('manager_id', '=',user.id)]</field>
+        </record>
+
+<!--        <record model="ir.rule" id="manager_user_roles_domain">-->
+<!--            <field name="name">Manager readonly</field>-->
+<!--            <field name="model_id" ref="model_user_roles"/>-->
+<!--            <field name="perm_write" eval="True"/>-->
+<!--            <field name="perm_create" eval="True"/>-->
+<!--            <field name="perm_read" eval="True"/>-->
+<!--            <field name="perm_unlink" eval="True"/>-->
+<!--            <field name="groups" eval="[(4,ref('manager_user_roles'))]" />-->
+<!--        </record>-->
+    </data>
+</odoo>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="inherit_survey_user_input_view">
+            <field name="name">Inherit Survey Question</field>
+            <field name="model">survey.user_input</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="survey.survey_user_input_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_input_line_ids']" position="after">
+                    <field name="question_answer_ids" readonly='1' force_save="1">
+                        <tree default_order="is_correct,question_type" decoration-danger="state == 'not_marked'"
+                              decoration-success="state == 'marked'">
+                            <!--                            <field name="question_id"/>-->
+                            <field name="question_title"/>
+                            <field name="is_correct"/>
+                            <field name="question_type" invisible="1"/>
+                            <field name="state" invisible="1"/>
+                            <button name="view_text_answer" string="Details"
+                                    attrs="{'invisible': [('question_type','!=', 'free_text')]}" type="object"
+                                    class="btn-primary"/>
+                        </tree>
+                    </field>
+                </xpath>
+                <xpath expr="//field[@name='token']" position="after">
+                    <field name="start_datetime" string="Start time"/>
+                    <field name="finish_datetime" string="Finish time"/>
+                    <field name="duration"/>
+                </xpath>
+            </field>
+        </record>
+<!--        <record id="action_set_entry_test" model="ir.actions.server">-->
+<!--            <field name="name">### Set test to entry</field>-->
+<!--            <field name="model_id" ref="survey.model_survey_user_input"/>-->
+<!--            <field name="binding_model_id" ref="survey.model_survey_user_input"/>-->
+<!--            <field name="binding_view_types">list,form</field>-->
+<!--            <field name="state">code</field>-->
+<!--            <field name="code">-->
+<!--                action = records.action_set_to_entry()-->
+<!--            </field>-->
+<!--        </record>-->
+    </data>
+</odoo>

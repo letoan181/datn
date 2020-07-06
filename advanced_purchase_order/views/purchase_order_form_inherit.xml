@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="advanced_purchase_order_form_cancel_group" model="ir.ui.view">
+            <field name="name">Purchase Order Form - Cancel Group</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='button_cancel']" position="attributes">
+                    <attribute name="groups" >advanced_purchase_order.group_cancel_purchase_order</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

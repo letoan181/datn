@@ -1,0 +1,50 @@
+<form id="contact-form" class="form contact-form form-wrapper" accept-charset="utf-8"
+      action="https://odoo.hungnamecommerce.com/contact_form/crm.lead" enctype="multipart/form-data"
+      data-model_name="crm.lead" method="post" name="Magenest Customization">
+    <div class="hidden"><input name="model_name" type="hidden" value="crm.lead"></div>
+    <div class="hidden"><input name="source_id" type="hidden" value="26"></div>
+    <div class="hidden"><input name="success_page" type="hidden" value="https://store.magenest.com/?success=ok"></div>
+    <div class="hidden"><input name="name" type="hidden" value="Magenest Customization"></div>
+    <div class="hidden"><input name="source_detail" type="hidden" value=""></div>
+    <div class="hidden"><input name="lead_location" type="hidden" value="1"></div>
+    <label for="project_type">I am query for</label>
+    <select name ="project_type" id="project_type">
+        <option value="1">Odoo</option>
+        <option value="2">Magento</option>
+        <option value="3">AWS</option>
+        <option value="4">Customization</option>
+        <option value="5">Mobile Apps</option>
+        <option value="6">Other</option>
+    </select>
+    <div class="first-name"><label for="first-name">Name</label><input name="contact_name" required="" type="text"
+                                                                       value=""></div>
+    <label for="lead_type">I am a </label>
+    <select name ="lead_type" id="lead_type">
+        <option value="shop_owner">Shop Owner</option>
+        <option value="digital_agency">Digital Agency</option>
+        <option value="partner">Partners</option>
+        <option value="other">Other</option>
+    </select>
+    <div class="mail"><label for="mail">Primary Email *</label><input name="email_from" required="" type="email"
+                                                                      value=""></div>
+    <div class="phone"><label for="phone">Phone Number *</label><input name="phone" required="" type="phone"
+                                                                       value=""></div>
+<!--    <div class="subject"><label for="company">Company</label><input name="partner_name" type="text" placeholder=""></div>-->
+    <div class="website"><label for="website">Website</label><input name="website" type="text" placeholder=""></div>
+    <div class="subject"><label for="subject">Subject</label><input name="name" type="text" placeholder=""></div>
+    <div class="center">
+        <!--        <div id="recaptcha" class="g-recaptcha" data-sitekey="6LdwSmMUAAAAAHLcugx_eojaCLRjC-F1L39biWz9">-->
+        <!--            <div style="width: 304px; height: 78px;">-->
+        <!--                <div>-->
+        <!--                    <iframe src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6LdwSmMUAAAAAHLcugx_eojaCLRjC-F1L39biWz9&amp;co=aHR0cHM6Ly9tYWdlbmVzdC5jb206NDQz&amp;hl=en&amp;v=v1554100419869&amp;size=normal&amp;cb=x3tvues97oqt"-->
+        <!--                            width="304" height="78" role="presentation" name="a-xzu5cww7dbmb" frameborder="0"-->
+        <!--                            scrolling="no"-->
+        <!--                            sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"></iframe>-->
+        <!--                </div>-->
+        <!--                <textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response"-->
+        <!--                          style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <p><input name="submit" type="submit" value="Submit"></p>
+    </div>
+</form>

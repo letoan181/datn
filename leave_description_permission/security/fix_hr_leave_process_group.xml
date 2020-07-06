@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="fix_hr_leave_process_group_user" model="res.groups">
+            <field name="name"># Hr leave description</field>
+            <field name="category_id" ref=""/>
+<!--            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>-->
+        </record>
+        <record id="company_location_leave_permission_group" model="res.groups">
+            <field name="name"># Read leave by location</field>
+            <field name="category_id" ref=""/>
+        </record>
+        <record id="company_location_leave_permission_group_rule" model="ir.rule">
+            <field name="name"># Hr leave description Rule</field>
+            <field ref="model_hr_leave" name="model_id"/>
+            <field name="domain_force">[('employee_id.employee_location.id', '=',
+                user.employee_ids.employee_location.id)]
+            </field>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="groups" eval="[(4, ref('leave_description_permission.company_location_leave_permission_group'))]"/>
+        </record>
+        <record id="resource_calendar_leaves_rule" model="ir.rule">
+            <field name="name"># Resource Calendar Leaves</field>
+            <field ref="resource.model_resource_calendar_leaves" name="model_id"/>
+            <field name="domain_force">[(1, '=',1 )]</field>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="groups" eval="[(4, ref('leave_description_permission.fix_hr_leave_process_group_user'))]"/>
+        </record>
+        <record id="hr_holidays.hr_leave_rule_employee" model="ir.rule">
+            <field name="name">Leaves: employee: read all</field>
+            <field name="model_id" ref="model_hr_leave"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="groups" eval="[(4,ref('leave_description_permission.fix_hr_leave_process_group_user'))]"/>
+            <field name="active">False</field>
+        </record>
+    </data>
+</odoo>

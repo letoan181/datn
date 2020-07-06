@@ -1,0 +1,48 @@
+<odoo>
+    <data>
+        <record id="project_form_deadline_inherit" model="ir.ui.view">
+            <field name="name">project.timeline.form.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='subtask_project_id']" position="after">
+                    <field name="branch_deadline" widget="html"/>
+                    <field name="man_month" groups="project_advanced_report.res_groups_can_see_man_month"/>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="is_project_private"/>
+                </xpath>
+                <xpath expr="//group[@name='misc']" position="after">
+                    <group>
+                        <field name="timeline_project">
+                            <tree editable="bottom">
+                                <field name="description"/>
+                                <field name="start_day"/>
+                                <field name="days"/>
+                                <field name="type_day"/>
+                                <field name="project_id" invisible="1" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                <field name="project_invisible"/>
+                            </tree>
+                        </field>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_project_deadline_kanban_inherited" model="ir.ui.view">
+            <field name="name">project.project.kanban.inherited</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[contains(@class, 'o_kanban_primary_left')]" position="after">
+                    <h6 class="text-danger">
+                        <span style="color:#6c6ba3">
+                            <field name="branch_deadline" widget="html"/>
+                        </span>
+                    </h6>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

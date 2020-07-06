@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="intangible_assets_form_inherit">
+            <field name="name">intangible.assets.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page name="intangible_assets" string="Virtual Assets">
+                        <field name="intangible_ids" readonly="1"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

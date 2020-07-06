@@ -1,0 +1,288 @@
+<odoo>
+    <data>
+        <template id="assets_backend_tracking_message" name="dev tool assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/advanced_crm/static/src/js/mail_message.js"></script>
+            </xpath>
+        </template>
+        <record id="hr_employee_form_inherit_hide_redundant_fields" model="ir.ui.view">
+            <field name="name">crm.lead.form.set.lost.mark.win</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <field name="status_id" widget="statusbar" attrs="{'invisible': [('type', '!=', 'lead')]}"
+                           options="{'clickable': '1'}"/>
+                </xpath>
+                <!--                <xpath expr='//button[@name="%(crm.crm_lead_lost_action)d"]' position='attributes'>-->
+                <!--                    <attribute name="groups">sales_team.group_sale_salesman</attribute>-->
+                <!--                </xpath>-->
+                <xpath expr='//button[@name="%(crm.crm_lead_lost_action)d"]' position='replace'>
+                    <button name="action_set_lost_apply" string="Mark Lost" type="object"
+                            context="{'default_lead_id': active_id}"
+                            attrs="{'invisible': ['|', ('type', '=', 'lead'),('active', '=', False)]}"
+                            groups="sales_team.group_sale_salesman"/>
+                </xpath>
+                <xpath expr='//button[@name="action_set_won_rainbowman"]' position='attributes'>
+                    <attribute name="groups">sales_team.group_sale_salesman</attribute>
+                </xpath>
+                <xpath expr='//div[hasclass("oe_title")]/h2/div[1]' position="attributes">
+                    <attribute name="groups">advanced_crm.group_user_can_see_revenue_opp</attribute>
+                </xpath>
+                <xpath expr='//button[@name="action_set_lost"]' position='replace'>
+                    <button name="action_set_lost_apply" string="Mark as Lost" type="object"
+                            attrs="{'invisible': ['|', ('type', '=', 'opportunity'), '&amp;', ('probability', '=', 0),('active', '=', False)]}"/>
+                </xpath>
+                <xpath expr='//button[@name="action_set_won_rainbowman"]' position='attributes'>
+                    <attribute name="groups">sales_team.group_sale_salesman</attribute>
+                </xpath>
+                <!--                <xpath expr="//field[@name='description']" position="replace">-->
+                <!--                    <field name="note" placeholder="Add a note..."/>-->
+                <!--                </xpath>-->
+                <xpath expr="/form/sheet/group/group/field[@name='lang_id']" position='after'>
+                    <!--                    <field name="check_activity_message" invisible="1"/>-->
+                    <field name="project_type"/>
+                    <field name="lost_reason" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="lead_type"/>
+                    <field name="lead_location" options="{'no_open':True,'no_create': True}"/>
+                    <field name="budget" widget="monetary"/>
+                    <field name="company_currency" invisible="1"/>
+                </xpath>
+                <xpath expr="/form/sheet/group/group/field[@name='phone']" position='after'>
+                    <field name="project_type" attrs="{'required' : [('type', '=', 'opportunity')]}"/>
+                    <field name="budget" widget="monetary"/>
+                    <field name="lost_reason" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="company_currency" invisible="1"/>
+                </xpath>
+                <!--                <xpath expr="/form/sheet/group/group/field[@name='user_id']" position='after'>-->
+                <!--                    <field name="email_notify" options="{'no_open':True,'no_create': True}" attrs="{'required':[ ('auto_create', '=', False)]}"/>-->
+                <!--                    <field name="auto_create" invisible="1"/>-->
+                <!--                </xpath>-->
+                <xpath expr="//field[@name='source_id']" position="after">
+                    <field name="source_detail"/>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="replace">
+                    <field name="sale_persons" invisible="1"/>
+                    <field name="user_id" domain="[('share', '=', False),('id','in',sale_persons)]"
+                           context="{'default_groups_ref': ['base.group_user', 'base.group_partner_manager', 'sales_team.group_sale_salesman_all_leads'], 'team_id': team_id}"/>
+                </xpath>
+                <!--                Document button for opp-->
+                <button name="action_schedule_meeting" position="before">
+                    <button class="oe_stat_button" type="object"
+                            name="action_document_crm_part_list" icon="fa-files-o" attrs="{'invisible': ['|',('type', '=', 'lead'),('document_count','=',0)]}">
+                        <field name="document_count" widget="statinfo" string="GG DriveDoc"/>
+                    </button>
+                </button>
+            </field>
+        </record>
+        <!--        inherit popup crmlead2partner-->
+        <record id="convert_lead_to_opp_inherit_popup" model="ir.ui.view">
+            <field name="name">convert.lead.to.opp.inherit.popup</field>
+            <field name="model">crm.lead2opportunity.partner</field>
+            <field name="inherit_id" ref="crm.view_crm_lead2opportunity_partner"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="replace">
+                    <field name="sale_persons" invisible="1"/>
+                    <field name="user_id" domain="[('share', '=', False),('id','in',sale_persons)]" required="True"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="crm.action_mark_as_lost" model="ir.actions.server">
+            <field name="code">
+                if record:
+                action_values = record.action_set_lost_apply()
+                action_values.update({'context': env.context})
+                action = action_values
+            </field>
+        </record>
+        <record id="crm_lead_kanban_inherit_show_probability" model="ir.ui.view">
+            <field name="name">crm_lead_kanban_inherit_show_probability</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('oe_kanban_content')]/div[last()]" position="after">
+                    <div>
+                        <span>Project Type:</span>
+                        <strong>
+                            <field name="project_type"/>
+                        </strong>
+                    </div>
+                    <div>
+                        <span>Probability:</span>
+                        <strong>
+                            <field name="probability"/>
+                        </strong>
+                        <strong>%</strong>
+                    </div>
+                    <div>
+                        <span>Budget:</span>
+                        <strong>
+                            <field name="budget" class="oe_inline" widget='monetary'
+                                   options="{'currency_field': 'company_currency'}"/>
+                        </strong>
+                    </div>
+                </xpath>
+                <xpath expr="//div[hasclass('oe_kanban_content')]/div[3]" position="attributes">
+                    <attribute name="groups">advanced_crm.group_user_can_see_revenue_opp</attribute>
+                </xpath>
+            </field>
+        </record>
+        <!--        From reason lost popup-->
+        <record id="crm_lead_lost_reason_form" model="ir.ui.view">
+            <field name="name">crm.lead.lost.reason</field>
+            <field name="model">crm.lead.lost.reason</field>
+            <field name="arch" type="xml">
+                <form string="Lead Lost Reason">
+                    <group>
+                        <field name="lost_reason"/>
+                        <field name="lost_detail"
+                               attrs="{'invisible': [('lost_reason', 'not in', ['low_quality', 'other'])],'required':[('lost_reason','=','low_quality')]}"/>
+                    </group>
+                    <footer>
+                        <button name="action_lost_reason_apply" string="Confirm" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <!--        From lead project type-->
+        <record id="crm_lead_project_type_form" model="ir.ui.view">
+            <field name="name">crm.lead.project.type.form</field>
+            <field name="model">crm.project.type</field>
+            <field name="arch" type="xml">
+                <form string="Lead Project Type">
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <h4>Qualification Questions</h4>
+                    <field name="note" placeholder="Qualification Questions..."/>
+                    <group string="Guideline for stage">
+                        <field name="guideline_ids" nolabel="1">
+                            <tree editable="1">
+                                <field name="stage_id"/>
+                                <field name="guideline"/>
+                            </tree>
+                        </field>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record id="crm_lead_guideline_view_tree" model="ir.ui.view">
+            <field name="name">crm_lead_guideline_view_tree</field>
+            <field name="model">crm.lead.guideline</field>
+            <field name="arch" type="xml">
+                <tree string="crm_lead_guideline_tree">
+                    <field name="stage_id"/>
+                    <field name="guideline"/>
+                </tree>
+            </field>
+        </record>
+        <!--        Search filter for leads-->
+        <record id="crm_lead_search_view_inherits" model="ir.ui.view">
+            <field name="name">crm.lead.search.view.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.view_crm_case_leads_filter"/>
+            <field name="arch" type="xml">
+                <filter name="lost" position="after">
+                    <separator/>
+                    <filter string="Shop Owner" name="shop_owner" domain="[('lead_type', '=', 'shop_owner')]"/>
+                    <filter string="Digital Agency" name="digital_agency"
+                            domain="[('lead_type', '=', 'digital_agency')]"/>
+                    <filter string="Partners" name="partner" domain="[('lead_type', '=', 'partner')]"/>
+                    <filter string="Other" name="other" domain="[('lead_type', '=', 'other')]"/>
+                    <separator/>
+                    <filter string="Location" name="lead_location_filter" domain="[]"
+                            context="{'group_by': 'lead_location'}"/>
+                </filter>
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <!--                                        <field name="project_type" required="context.get('default_type', 'opportunity')"/>-->
+                    <field name="project_type"/>
+                </xpath>
+            </field>
+        </record>
+        <!-- Configuration Lead Location Menu -->
+        <record id="crm_lead_location_form" model="ir.ui.view">
+            <field name="name">crm.lead.location.form</field>
+            <field name="model">crm.lead.location</field>
+            <field name="arch" type="xml">
+                <form string="Lead Location">
+                    <group>
+                        <field name="name"/>
+                        <field name="owner_user"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record id="crm_lead_location_action" model="ir.actions.act_window">
+            <field name="name">Lead Location</field>
+            <field name="res_model">crm.lead.location</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Define a new lead location
+                </p>
+            </field>
+        </record>
+        <record id="crm_lead_project_type" model="ir.actions.act_window">
+            <field name="name">Lead Project Type</field>
+            <field name="res_model">crm.project.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Define a new lead project type
+                </p>
+            </field>
+        </record>
+        <record id="crm_lead_email_notify" model="ir.actions.act_window">
+            <field name="name">Lead Email Notify</field>
+            <field name="res_model">crm.notify.email</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Define a new lead email notify
+                </p>
+            </field>
+        </record>
+        <menuitem
+                id="menu_crm_lead_location"
+                action="crm_lead_location_action"
+                parent="crm.menu_crm_config_lead"
+                sequence="10"/>
+        <menuitem
+                id="menu_crm_lead_project_type"
+                action="crm_lead_project_type"
+                parent="crm.menu_crm_config_lead"
+                sequence="15"/>
+        <menuitem
+                id="menu_crm_lead_email_notify"
+                action="crm_lead_email_notify"
+                parent="crm.menu_crm_config_lead"
+                sequence="20"/>
+        <record model="ir.ui.view" id="crm_lead_inherit_tree_view_status">
+            <field name="name">crm.lead.inherit.tree.add.status</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="status_id"/>
+                </xpath>
+            </field>
+        </record>
+        <!-- Inherit Form View to Modify it -->
+        <record id="quick_create_opportunity_form_inherit" model="ir.ui.view">
+            <field name="name">crm.lead.form.quick_create.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.quick_create_opportunity_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='planned_revenue']" position="after">
+                    <field name="project_type" required="1"/>
+                    <!-- Add your fields or attributes here -->
+                </xpath>
+                <xpath expr="//field[@name='planned_revenue']" position="attributes">
+                    <attribute name="groups">advanced_crm.group_user_can_see_revenue_opp</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

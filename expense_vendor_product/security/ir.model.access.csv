@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_expense_vendor_product_expense_vendor_product,expense_vendor_product.expense_vendor_product,model_expense_vendor_product_expense_vendor_product,,1,0,0,0

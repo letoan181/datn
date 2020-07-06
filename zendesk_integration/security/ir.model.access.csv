@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_zendesk_ticket,access.zendesk.ticket,model_zendesk_ticket,zendesk_integration.zendesk_group_user,1,0,0,0
+access_zendesk_conversation,access.zendesk.conversation,model_zendesk_conversation,zendesk_integration.zendesk_group_user,1,0,0,0
+access_zendesk_update,access.zendesk.update,model_zendesk_update,zendesk_integration.zendesk_group_user,0,0,0,0
+access_zendesk_ticket_manage,access.zendesk.ticket.manage,model_zendesk_ticket,zendesk_integration.zendesk_group_manager,1,1,1,1
+access_zendesk_conversation_manage,access.zendesk.conversation.manage,model_zendesk_conversation,zendesk_integration.zendesk_group_manager,1,1,1,1
+access_zendesk_update_manage,access.zendesk.update.manage,model_zendesk_update,zendesk_integration.zendesk_group_manager,1,1,1,1

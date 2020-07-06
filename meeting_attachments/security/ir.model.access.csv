@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_attachment_manager,access.attachment.manager,base.model_ir_attachment,meeting_attachments.group_attachment_manager,1,1,1,1
+access_attachment_only_read,access.attachment.only.read,base.model_ir_attachment,meeting_attachments.group_attachment_only_read,1,0,0,0

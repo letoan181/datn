@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="remove_follower_popup_form" model="ir.ui.view">
+            <field name="name">remove follower popup form</field>
+            <field name="model">project.remove.follower</field>
+            <field name="arch" type="xml">
+                <form string="Remove Follower">
+                    <sheet>
+                        <group>
+                            <field name="followers" invisible="1"/>
+                            <field name="project_id"/>
+                            <field name="remove_followers_list" string="Followers to remove"
+                                   domain="[('id', 'in', followers)]"/>
+                        </group>
+                        <footer>
+                            <div>
+                                <button name="remove_followers" type="object" string="Remove"/>
+                            </div>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Inherit Form View to Modify it -->
+        <record id="button_remove_follower_form" model="ir.ui.view">
+            <field name="name">button.remove.follower.form</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="priority" eval="17"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <!-- Add your fields or attributes here -->
+                    <div class="o_field_widget o_stat_info">
+                        <button name="remove_project_follower" class="oe_stat_button" icon="fa-trash" type="object"
+                                string="Remove followers" attrs="{'invisible' : [('can_edit', '=', False)]}"/>
+                        <field name="can_edit" invisible='True'/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

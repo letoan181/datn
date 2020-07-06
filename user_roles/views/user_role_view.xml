@@ -1,0 +1,87 @@
+<odoo>
+    <data>
+        <record id="view_user_roles_form" model="ir.ui.view">
+            <field name="name">user.roles.form</field>
+            <field name="model">user.roles</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                           <field name="name"/>
+                           <field name="manager_id" widget="many2many_tags" groups="user_roles.manager_user_roles" />
+                        </group>
+                        <notebook>
+                            <page string="Groups" >
+                               <field name="groups_user"/>
+                            </page>
+                            <page string="User">
+                                <field name="line_user_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="user_id"/>
+                                        <button string="Change Password" name="action_user_roles_change_password_view"
+                                                class="btn btn-primary" type="object">
+                                        </button>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_user_roles_kanban" model="ir.ui.view">
+            <field name="name">view_user_roles_kanban</field>
+            <field name="model">user.roles</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div>
+                                    <strong>
+                                        <h3><field name="name"/></h3>
+                                    </strong>
+                                </div>
+                                <b>Manager:</b> <field name="manager_id"/>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+        <record id="view_user_roles_tree" model="ir.ui.view">
+            <field name="name">user.roles.tree</field>
+            <field name="model">user.roles</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_user_roles_search" model="ir.ui.view">
+            <field name="name">user.roles.search</field>
+            <field name="model">user.roles</field>
+            <field name="arch" type="xml">
+                <search string="Roles">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_user_roles_view">
+            <field name="name">User Roles</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">user.roles</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="view_user_roles_kanban"/>
+        </record>
+
+        <menuitem id="menuitem_action_user_roles_view"
+                  action="action_user_roles_view" groups="user_roles.admin_user_roles,user_roles.manager_user_roles"/>
+    </data>
+</odoo>

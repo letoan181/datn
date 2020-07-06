@@ -1,0 +1,121 @@
+<odoo>
+    <data>
+        <!--invoice tree view-->
+        <record id="additional_invoice_tree_pre_journal_id" model="ir.ui.view">
+            <field name="name">additional.invoice.tree.journal</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_invoice_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="pre_journal_id"/>
+                </xpath>
+                <xpath expr="//field[@name='state']" position="after">
+                    <!--                    <field name="has_payments"/>-->
+                    <field name="date_last_payment_updated_at"/>
+                </xpath>
+                <xpath expr="//field[@name='amount_untaxed_signed']" position="replace">
+                </xpath>
+                <xpath expr="//field[@name='amount_tax_signed']" position="replace">
+                </xpath>
+                <xpath expr="//field[@name='amount_total_signed']" position="replace">
+                    <field name="amount_total"/>
+                </xpath>
+                <xpath expr="//field[@name='amount_residual_signed']" position="replace">
+                    <field name="amount_residual"/>
+                </xpath>
+            </field>
+        </record>
+        <!--invoice form view-->
+        <record id="additional_invoice_form_pre_journal_id" model="ir.ui.view">
+            <field name="name">additional.invoice.form.journal</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="pre_journal_id"
+                           domain="[('type', 'in', ['bank','cash'])]" style="font-weight:bold;" attrs="{'required': [('type', 'in', ('in_invoice', 'in_refund', 'in_receipt', 'out_invoice', 'out_refund', 'out_receipt'))], 'invisible': [('type', 'not in', ('in_invoice', 'in_refund', 'in_receipt', 'out_invoice', 'out_refund', 'out_receipt'))]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="additional_invoice_form_view_payment" model="ir.ui.view">
+            <field name="name">additional.invoice.form.payment</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='pre_journal_id']" position="after">
+                    <!--                    <button class="oe_stat_button" name="button_payments"-->
+                    <!--                            string="Payments" type="object"-->
+                    <!--                            attrs="{'invisible':[('has_payments','=',False)]}" icon="fa-bars"/>-->
+                    <!--                    <field name="has_payments" class="oe_inline" attrs="{'invisible': 1}"/>-->
+                    <field name="date_last_payment_updated_at" class="oe_inline" attrs="{'invisible': [('type', 'not in', ('in_invoice', 'in_refund', 'in_receipt', 'out_invoice', 'out_refund', 'out_receipt'))]}"/>
+                </xpath>
+            </field>
+        </record>
+        <!--inherit invoice_supplier_form view-->
+        <record id="additional_invoice_supplier_form_pre_journal_id" model="ir.ui.view">
+            <field name="name">additional.account.move.supplier.form.journal</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="priority">20</field>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@id='account_invoice_payment_btn']" position="replace">
+                    <button name="action_invoice_register_payment" id="account_invoice_payment_btn"
+                            type="object" class="oe_highlight"
+                            attrs="{'invisible': ['|', '|', ('state', '!=', 'posted'), ('invoice_payment_state', '!=', 'not_paid'), ('type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'))]}"
+                            string="Register Payment"
+                            groups="advanced_invoice.group_register_payment"
+                            context="{'default_journal_id': pre_journal_id, 'default_team_id': team_id}"/>
+                </xpath>
+                <xpath expr="//button[@name='action_reverse']" position="replace">
+                    <button name="action_reverse" string='Add Credit Note'
+                            type='object' groups="advanced_invoice.group_invoice_add_credit_note"
+                            attrs="{'invisible': ['|', ('type', 'not in', ('out_invoice', 'in_invoice')), ('state', '!=', 'posted')]}"/>
+                </xpath>
+                <xpath expr="//button[@name='button_cancel']" position="replace">
+                    <button name="button_cancel" string="Cancel Entry" type="object" groups="advanced_invoice.group_invoice_cancel"
+                            attrs="{'invisible' : ['|', ('id', '=', False), ('state', '!=', 'draft')]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--force update account invoice comment-->
+        <!-- Journal Items -->
+        <act_window id="force_update_comment_account_invoice"
+                    name="# Invoice: Force Update Comment"
+                    binding_model="account.move"
+                    res_model="account.move.force.update.comment"
+                    view_mode="form"
+                    target="new"
+                    context="{'default_account_invoice': active_id}"/>
+
+        <record id="wizard_account_invoice_force_update_comment_form_view" model="ir.ui.view">
+            <field name="name">wizard.account.move.force.update.comment.form.view</field>
+            <field name="model">account.move.force.update.comment</field>
+            <field name="arch" type="xml">
+                <form string="Account Invoice: Force Update">
+                    <h3>### We only update the first invoice comment</h3>
+                    <group>
+                        <field name="account_invoices" options="{'no_create_edit': True, 'no_quick_create': True}"/>
+                        <field name="comment"/>
+                    </group>
+
+                    <footer>
+                        <button name="force_update_comment_now" type="object"
+                                string="Update Now" class="oe_highlight"/>
+                        or
+
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="custom_account_invoice_comment_updated" model="mail.message.subtype">
+            <field name="name">Comment Updated</field>
+            <field name="res_model">account.move</field>
+            <field name="default" eval="True"/>
+            <field name="description">Comment Updated</field>
+        </record>
+    </data>
+</odoo>

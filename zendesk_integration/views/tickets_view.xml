@@ -1,0 +1,87 @@
+<odoo>
+    <record id="ticket_form_view" model="ir.ui.view">
+        <field name="name">Ticket</field>
+        <field name="model">zendesk.ticket</field>
+        <field name="arch" type="xml">
+            <form edit="false" create="false" delete="false">
+                <sheet>
+                    <div class="oe_title">
+                        <h2>
+                            <field name="name"/>
+                        </h2>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="type"/>
+                            <field name="status"/>
+                            <field name="priority"/>
+                            <field name="created_at"/>
+                            <field name="updated_at"/>
+                            <field name="requester_id"/>
+                            <field name="assignee_id"/>
+                        </group>
+                        <group>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Collaborators">
+                            <field name="collaborator_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="zendesk_role"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Conversations">
+                            <field name="conversation_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="created_at"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="ticket_tree_view" model="ir.ui.view">
+        <field name="name">Ticket Tree View</field>
+        <field name="model">zendesk.ticket</field>
+        <field name="arch" type="xml">
+            <tree create="0">
+                <field name="name"/>
+                <field name="created_at"/>
+                <field name="type"/>
+                <field name="status"/>
+                <field name="priority"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="ticket_menu_action" model="ir.actions.act_window">
+        <field name="name">Ticket Menu</field>
+        <field name="res_model">zendesk.ticket</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="ticket_graph_view">
+        <field name="name">Ticket Graph</field>
+        <field name="model">zendesk.ticket</field>
+        <field name="arch" type="xml">
+            <graph string="Report Warranty" type="bar">
+                <field name="created_at" interval="day" type="row"/>
+            </graph>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="zendesk_ticket_report_act">
+        <field name="name">Ticket Report</field>
+        <field name="res_model">zendesk.ticket</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">graph</field>
+    </record>
+</odoo>

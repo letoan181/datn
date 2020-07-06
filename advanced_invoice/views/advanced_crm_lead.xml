@@ -1,0 +1,32 @@
+<odoo>
+    <data>
+        <!--for update crm lead sale person-->
+        <act_window id="force_update_crm_lead_sale_person"
+                    name="# Lead: Force Update Sale Person"
+                    binding_model="crm.lead"
+                    res_model="crm.lead.update.sale.person"
+                    view_mode="form"
+                    target="new"
+        />
+        <record id="wizard_crm_lead_force_update_sale_person_form_view" model="ir.ui.view">
+            <field name="name">wizard.crm.lead.force.update.sale.person.form.view</field>
+            <field name="model">crm.lead.update.sale.person</field>
+            <field name="arch" type="xml">
+                <form string="Lead: Force Update">
+                    <group>
+                        <field name="crm_leads" options="{'no_create_edit': True, 'no_quick_create': True}"/>
+                        <field name="update_sale_person"/>
+                    </group>
+
+                    <footer>
+                        <button name="force_update_crm_lead_sale_person" type="object"
+                                string="Update Now" class="oe_highlight"/>
+                        or
+
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

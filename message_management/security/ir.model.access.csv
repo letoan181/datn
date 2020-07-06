@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_seen_message_seen_message,seen_message.seen_message,model_seen_message_seen_message,,1,0,0,0

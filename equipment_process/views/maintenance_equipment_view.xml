@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit Form View to Modify it -->
+        <record id="maintenance_equipment_form_inherit" model="ir.ui.view">
+            <field name="name">Maintenance Equipment Form Inherit</field>
+            <field name="model">maintenance.equipment</field>
+            <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
+            <field name="priority" eval="40"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet" position="before">
+                    <header>
+                        <field name="disable_assign_button" attrs="{'invisible': True}"/>
+                        <!--<field name="disable_approve_button" attrs="{'invisible': True}"/>-->
+                        <button name="action_receive" type="object" class="oe_highlight" string="Approve"
+                                attrs="{'invisible': ['|',('state', 'in', ['approved']),'|',('disable_assign_button', '=', True)]}"/>
+                        <button name="action_refuse" type="object" string="Refuse"
+                                attrs="{'invisible': ['|',('state', 'in', ['approved']),'|',('disable_assign_button', '=', True)]}"/>
+                        <button name="action_return" type="object" string="Assign to Inventory"
+                                attrs="{'invisible':['|',('state', 'in', ['unapproved', 'refused', 'returned']),('disable_assign_button', '=', True)]}"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                </xpath>
+                <xpath expr="//field[@name='employee_id']" position="replace">
+                    <field name="assign_to_employee" invisible="1"/>
+                    <field name="employee_id" domain="[('id', 'in', assign_to_employee)]"
+                           attrs="{'invisible': [('equipment_assign_to','=','department')],
+                                    'required': [('equipment_assign_to', 'in', ['employee', 'other'])]}"/>
+                </xpath>
+
+                <xpath expr="//field[@name='department_id']" position="replace">
+                    <field name="department_id" string="Department"
+                           attrs="{'invisible': ['|', ('equipment_assign_to', '=', 'employee'), ('equipment_assign_to', '=', False)],
+                                   'required': [('equipment_assign_to', 'in', ['department', 'other'])]                                                            }"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--add filter waiting for return to inventory-->
+        <record id="maintenance_equipment_waiting_inventory_search_view" model="ir.ui.view">
+            <field name="name">maintenance_equipment_waiting_inventory_search_view</field>
+            <field name="model">maintenance.equipment</field>
+            <field name="inherit_id" ref="maintenance.hr_equipment_view_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <filter string="Waiting For Return To Inventory" name="wait_return_inventory"
+                            domain="[('state', '=', 'returned')]"/>
+                    <filter string="Equipments In Inventory" name="in_inventory"
+                            domain="[('state', '=', 'unapproved')]"/>
+                    <filter string="Refused Equipments" name="refused_equipments"
+                            domain="[('state', '=', 'refused')]"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

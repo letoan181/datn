@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="cron_job_mark_lost_lead_overdue_20_days" model="ir.cron">
+            <field name="name"># Mark Lost Lead Open Overdue 20 days</field>
+            <field name="model_id" ref="model_crm_lead"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_job_auto_mark_lost_after_20_day()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="active" eval="False"/>
+        </record>
+        <record id="cron_job_auto_reminder_after_3_days" model="ir.cron">
+            <field name="name"># Reminder Lead Owner Overdue 3 days</field>
+            <field name="model_id" ref="model_crm_lead"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_job_auto_reminder_after_3_day()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="active" eval="False"/>
+        </record>
+        <record id="cron_job_auto_reminder_opp_owner_after_3_days" model="ir.cron">
+            <field name="name"># Reminder Opportunity Owner Overdue 3 days</field>
+            <field name="model_id" ref="model_crm_lead"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_job_auto_reminder_opp_after_3_day()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="active" eval="False"/>
+        </record>
+        <record id="cron_job_auto_send_mail_notification" model="ir.cron">
+            <field name="name"># Auto send no action alert for lead to specify mail</field>
+            <field name="model_id" ref="model_crm_lead"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_job_check_activity_message()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="active" eval="False"/>
+        </record>
+    </data>
+</odoo>

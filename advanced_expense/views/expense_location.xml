@@ -1,0 +1,27 @@
+<odoo>
+    <data>
+        <!--View -->
+        <record id="view_expense_location_tree" model="ir.ui.view">
+            <field name="name">view.expense.location.tree</field>
+            <field name="model">expense.location</field>
+            <field name="arch" type="xml">
+                <tree string="Expense Location">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--Action-->
+        <record id="action_expense_location_type" model="ir.actions.act_window">
+            <field name="name">Expense Location</field>
+            <field name="res_model">expense.location</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_id" ref="view_expense_location_tree"/>
+        </record>
+
+        <!--Menu-->
+        <menuitem id="menu_expense_location" name="Expense" parent="base.menu_custom" sequence="40"/>
+        <menuitem id="expense_location_id" name="Expense Location" parent="menu_expense_location"
+                  groups="base.group_no_one" action="action_expense_location_type"/>
+    </data>
+</odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="add_read_crm_lead_employee_view" model="ir.ui.view">
+        <field name="name">add_read_crm_lead_employee_view</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='can_read_leave_users']" position="after">
+                <field name="can_read_crm_lead_users" string="Employees That Can Read His/Her Lead/Oppor"
+                       groups="hr.group_hr_manager">
+                    <tree>
+                        <field name="name"/>
+                    </tree>
+                </field>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit Form View to Modify it -->
+        <record id="account_account_form_inherit_estimation" model="ir.ui.view">
+            <field name="name">account estimation form</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='deprecated']" position="after">
+                    <field name="is_profit_loss"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

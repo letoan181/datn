@@ -1,0 +1,36 @@
+<odoo>
+    <!--<record id="advanced_expense_sheet_form_bank_journal_id" model="ir.ui.view">-->
+    <!--<field name="name">advanced.hr.expense.sheet.form.bank_journal_id</field>-->
+    <!--<field name="model">hr.expense.sheet</field>-->
+    <!--<field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_form"/>-->
+    <!--<field eval="35" name="priority"/>-->
+    <!--<field name="arch" type="xml">-->
+    <!--<xpath expr="//field[@name='bank_journal_id']" position="attributes">-->
+    <!--<attribute name="domain">[('id', 'in', ['11', '28'])]</attribute>-->
+    <!--</xpath>-->
+    <!--</field>-->
+    <!--</record>-->
+    <record id="additional_view_hr_expense_sheet_tree_bank_journal_id" model="ir.ui.view">
+        <field name="name">additional.hr.expense.sheet.tree.bank_journal_id</field>
+        <field name="model">hr.expense.sheet</field>
+        <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='total_amount']" position="after">
+                <field name="bank_journal_id" sum="Amount"/>
+            </xpath>
+            <xpath expr="//field[@name='create_date']" position="after">
+                <field name="advanced_date_due"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="additional_view_hr_expense_sheet_form_date_due" model="ir.ui.view">
+        <field name="name">additional.hr.expense.sheet.form.date_due</field>
+        <field name="model">hr.expense.sheet</field>
+        <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="advanced_date_due"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="advanced_search_view_request">
+            <field name="name">Request Management Filter</field>
+            <field name="model">advanced.request.management</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter string="Today" name="request_day"
+                            domain="[('date_request','&lt;=', (datetime.date.today()).strftime('%Y-%m-%d')),
+                            ('date_request','&gt;=',(datetime.date.today()).strftime('%Y-%m-%d'))]"/>
+                    <filter string="This Week" name="request_week"
+                            domain="[('date_request','&gt;=', ((context_today()).strftime('%Y-%m-%d'))),
+                            ('date_request','&lt;=', ((context_today()+datetime.timedelta(days=7)).strftime('%Y-%m-%d')))]"/>
+                    <filter string="This Month" name="request_month"
+                            domain="[('date_request','&lt;=',(datetime.date.today()+relativedelta(day=31)).strftime('%Y-%m-%d')),
+                            ('date_request','&gt;=',(datetime.date.today()-relativedelta(day=1)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="This Year" name="request_year"
+                            domain="[('date_request','&lt;=', time.strftime('%%Y-12-31')),
+                            ('date_request','&gt;=',time.strftime('%%Y-01-01'))]"/>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

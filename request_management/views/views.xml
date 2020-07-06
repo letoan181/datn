@@ -1,0 +1,159 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="form_view_advanced_request_management">
+            <field name="name">Request Management</field>
+            <field name="model">advanced.request.management</field>
+            <field name="arch" type="xml">
+                <form class="o_sale_order">
+                    <header>
+                        <field name="current_status" widget="statusbar"/>
+                        <field name="approve_button_invisible" invisible="1"/>
+                        <button name="submit_request" string="Submit manager" type="object" class="oe_highlight"
+                                attrs="{'invisible': [('current_status', '!=', 'draft')]}"/>
+                        <button name="approve_button" string="Approve" class="oe_highlight" type="object"
+                                attrs="{'invisible': [('approve_button_invisible','=',False)]}"/>
+                        <button name="refuse_button" string="Refuse" type="object"
+                                attrs="{'invisible': [('approve_button_invisible','=',False)]}"/>
+                        <button name="cancel_button" string="Cancel" type="object"
+                                attrs="{'invisible': ['|',('current_status', '=', 'done'),('current_status', '=', 'refused')]}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="topic" class="o_project_name oe_inline" placeholder="Topic"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="employee"
+                                       attrs="{'readonly': [('id', '!=', False)],'invisible': [('id', '==', False)]}"/>
+                                <field name="assign_to" string='Assigned to' required="1"/>
+                                <field name="priority" required="1"/>
+                            </group>
+                        </group>
+                        <div>
+                            <h4>Request Detail</h4>
+                            <field name="request_detail">
+                                <tree editable="bottom">
+                                    <field name="employee_id"/>
+                                    <field name="description"/>
+                                    <field name="status"/>
+                                    <field name="status_history"/>
+                                    <field name="cancel_reason" attrs="{'invisible': [('status', '!=', 'refuse')]}"/>
+                                    <button name="do_accept" string="Accept" type="object"
+                                            icon="fa-check text-success"
+                                            attrs="{'invisible': [('status', '=', 'refuse')]}"
+                                    />
+                                    <button name="do_decline" string="Decline" type="object"
+                                            icon="fa-times-circle text-danger"
+                                            attrs="{'invisible': [('status', '=', 'approve')]}"
+                                    />
+                                    <button name="do_refresh" string="Refresh" type="object"
+                                            icon="fa-refresh"
+                                    />
+                                </tree>
+                            </field>
+                        </div>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>1
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="tree_view_advanced_request_management">
+            <field name="name">Request Management</field>
+            <field name="model">advanced.request.management</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="topic"/>
+                    <field name="employee"/>
+                    <field name="priority"/>
+                    <field name="current_status"/>
+                    <field name="date_request"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="advanced_reason_refuse">
+            <field name="name">Reason</field>
+            <field name="model">advanced.refuse.reason</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="cancel_reason"/>
+                        </group>
+                        <footer>
+                            <button name="add_reason" type="object"
+                                    string="Add Reason" class="oe_highlight"/>
+                            or
+                            <button special="cancel" string="Cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="advanced_reason_refuse_all">
+            <field name="name">Reason</field>
+            <field name="model">advanced.refuse.reason</field>
+            <field name="priority">1000</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="cancel_reason"/>
+                        </group>
+                        <footer>
+                            <button name="add_reason_all" type="object"
+                                    string="Accept" class="oe_highlight"/>
+                            <button special="cancel" string="Cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="advanced_action_request_management">
+            <field name="name">Request Management</field>
+            <field name="res_model">advanced.request.management</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="advanced_action_request_management_person_only">
+            <field name="name">My Request</field>
+            <field name="res_model">advanced.request.management</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('created_by','=',context.get('uid'))]</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="advanced_action_request_management_cancel_reason">
+            <field name="name">Request Management</field>
+            <field name="res_model">advanced.refuse.reason</field>
+            <field name="view_mode">form</field>
+        </record>
+        <record model="ir.ui.view" id="request_report_graph_view">
+            <field name="name">Request Analysis</field>
+            <field name="model">advanced.request.management</field>
+            <field name="arch" type="xml">
+                <graph string="Report Warranty" type="bar" stacked="True">
+                    <field name="date_request" type="row" interval="day"/>
+                    <field name="current_status" type="row"/>
+                </graph>
+            </field>
+        </record>
+        <record id="request_report_act" model="ir.actions.act_window">
+            <field name="name">Report Analysis</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">advanced.request.management</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="request_management.request_report_graph_view"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="report_miss_deadline_popup_view_form" model="ir.ui.view">
+            <field name="name">report_miss_deadline_popup_view_form</field>
+            <field name="model">report.miss.deadline.popup</field>
+            <field name="arch" type="xml">
+                <form string="report_miss_deadline_popup_form">
+                    <sheet>
+                        <group>
+                            <field name="type" wiget="radio" required="1"/>
+                            <field name="project_ids" widget="many2many_tags" options="{'no_create': True}"
+                                   attrs="{'invisible':[('type','not in',['all','project','project_and_department','project_and_employee'])]}"/>
+                            <field name="department_ids" widget="many2many_tags" options="{'no_create': True}"
+                                   attrs="{'invisible':[('type','not in',['all','department','project_and_department','department_and_employee'])]}"/>
+                            <field name="user_ids" widget="many2many_tags" options="{'no_create': True}"
+                                   attrs="{'invisible':[('type','not in',['all','employee','project_and_employee','department_and_employee'])]}"/>
+                            <field name="date_scan" required="1"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="gen_report" type="object" string="Generate Report" class="oe_highlight"/>
+                        <button special="cancel" string="Cancel" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="report_miss_deadline_popup_action" model="ir.actions.act_window">
+            <field name="name">##Report Miss Deadline</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">report.miss.deadline.popup</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <menuitem id="report_miss_deadline_popup_menu" name="##Report Miss Deadline" parent="project.menu_project_report"
+                  action="report_miss_deadline_popup_action" sequence="1" groups="project_advanced_report.user_all_access_report_miss_deadline"/>
+    </data>
+</odoo>

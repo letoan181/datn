@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_fix_hr_leave_process,access_fix_hr_leave_process,model_hr_leave,leave_description_permission.fix_hr_leave_process_group_user,1,1,1,1

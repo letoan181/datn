@@ -1,0 +1,9 @@
+<odoo>
+    <data>
+        <menuitem
+                id="menu_action_move_out_invoice_type_additional_for_sale"
+                action="account.action_move_out_invoice_type"
+                string="Invoices"
+                parent="sale.sale_menu_root"/>
+    </data>
+</odoo>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo >
+    <data>
+        <record id="magenest_account_money_flow_0" model="account.financial.html.report">
+            <field name="name"># Money Flow Estimation - Balance</field>
+            <field name="debit_credit" eval="False"/>
+            <field name="analytic" eval="True"/>
+<!--            <field name="cash_basis" eval="False"/>-->
+            <field name="unfold_all_filter" eval="True"/>
+            <field name="show_journal_filter" eval="True"/>
+            <field name='parent_id' ref='account.account_reports_legal_statements_menu'/>
+        </record>
+
+        <record id="magenest_account_money_flow_0_totalincome0_detail" model="account.financial.html.report.line">
+            <field name="name"># Money Flow Estimation - Balance</field>
+            <field name="code">MGN_MFE_DETAIL</field>
+            <field name="formulas">balance = sum.balance; debit = sum.debit; credit= sum.credit</field>
+            <field name="parent_id" eval="False"/>
+            <field name="domain" eval="[('account_id.is_profit_loss', '=', True)]"/>
+            <field name="financial_report_id" ref="magenest_account_money_flow_0"/>
+            <field name="special_date_changer">normal</field>
+            <field name="groupby">account_id</field>
+            <field name="sequence" eval="1"/>
+            <field name="level" eval="3"/>
+<!--            <field name="analytic" eval="True"/>-->
+        </record>
+
+         <record id="action_account_report_mfe" model="ir.actions.client">
+             <field name="name"># Money Flow Estimation - Balance</field>
+            <field name="tag">account_report</field>
+            <field name="context" eval="{'model': 'account.financial.html.report', 'id': ref('magenest_account_money_flow_0')}" />
+        </record>
+
+        <record id="magenest_account_money_flow_1" model="account.financial.html.report">
+            <field name="name"># Money Flow Estimation - Debit and credit</field>
+            <field name="debit_credit" eval="True"/>
+            <field name="analytic" eval="True"/>
+<!--            <field name="cash_basis" eval="False"/>-->
+            <field name="unfold_all_filter" eval="True"/>
+            <field name="show_journal_filter" eval="True"/>
+            <field name="hierarchy_option" eval="False"/>
+            <field name='parent_id' ref='account.account_reports_legal_statements_menu'/>
+        </record>
+
+        <record id="magenest_account_money_flow_1_totalincome1_detail" model="account.financial.html.report.line">
+            <field name="name"># Money Flow Estimation - Debit and credit</field>
+            <field name="code">MGN_MFE_WO_DETAIL</field>
+            <field name="formulas">balance = sum.balance; debit = sum.debit; credit= sum.credit</field>
+            <field name="parent_id" eval="False"/>
+            <field name="domain" eval="[('account_id.is_profit_loss', '=', True)]"/>
+            <field name="financial_report_id" ref="magenest_account_money_flow_1"/>
+            <field name="special_date_changer">strict_range</field>
+            <field name="groupby">account_id</field>
+            <field name="sequence" eval="1"/>
+            <field name="level" eval="3"/>
+<!--            <field name="analytic" eval="True"/>-->
+        </record>
+
+        <record id="action_account_report_mfe_wo" model="ir.actions.client">
+            <field name="name"># Money Flow Estimation - Debit and credit</field>
+            <field name="tag">account_report</field>
+            <field name="context"
+                   eval="{'model': 'account.financial.html.report', 'id': ref('magenest_account_money_flow_1')}"/>
+        </record>
+
+    </data>
+</odoo>

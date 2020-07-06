@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+<!--        <record id="view_account_payment_form_inherit_form_disable_selection_journal" model="ir.ui.view">-->
+<!--            <field name="name">view.account.payment.inherit.form</field>-->
+<!--            <field name="model">account.payment</field>-->
+<!--            <field name="inherit_id" ref="account.view_account_payment_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//header" position="inside">-->
+<!--                    <button name="action_open_pdf_wizard" type="object" string="In phiếu thu" class="oe_highlight" attrs="{'invisible':[('payment_type','=','outbound')]}" />-->
+<!--                    <button name="action_open_pdf_wizard" type="object" string="In phiếu chi" class="oe_highlight" attrs="{'invisible':[('payment_type','=','inbound')]}" />-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+    </data>
+</odoo>

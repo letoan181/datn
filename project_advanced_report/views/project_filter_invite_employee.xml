@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+ <record model="ir.ui.view" id="view_res_user_independent_form_inherit">
+           <field name="name">add.followers.employee</field>
+            <field name="model">mail.wizard.invite</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="mail.mail_wizard_invite_form"/>
+            <field name="arch" type="xml">
+                <xpath  expr="//field[@name='partner_ids']" position='attributes'>
+                    <attribute name="domain">[('employee','=',1)]</attribute>
+                </xpath>
+            </field>
+      </record>
+</odoo>

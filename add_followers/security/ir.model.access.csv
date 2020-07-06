@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_add_followers_add_followers,add_followers.add_followers,model_add_followers_add_followers,,1,0,0,0

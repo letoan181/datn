@@ -1,0 +1,115 @@
+<odoo>
+    <data>
+
+        <record id="action_attachment_message" model="ir.actions.act_window">
+            <field name="name">action_attachment_message</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ir.attachment</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="base.view_attachment_form"/>
+        </record>
+
+        <record id="send_by_me_filter" model="ir.ui.view">
+            <field name="name">send_by_me_filter</field>
+            <field name="model">mail.message</field>
+            <field name="inherit_id" ref="mail.view_message_search"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//search" position="inside">
+                    <separator/>
+                    <filter name="filter_has_mentions_name" string="Send By Me"
+                            domain="[('author_id.user_ids','in',[uid])]"/>
+                    <separator/>
+                    <filter name="filter_has_mentions_name" string="Received By Me"
+                            domain="[('author_id.user_ids','!=',[uid])]"/>
+                    <filter string="Project Task" name="task" domain="[]" context="{'group_by':'project_task_name'}"/>
+                    <filter string="Project" name="project" domain="[]" context="{'group_by':'project_name'}"/>
+                    <separator/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="project_task_message_tree" model="ir.ui.view">
+            <field name="name">project_task_message_tree</field>
+            <field name="model">mail.message</field>
+            <field name="arch" type="xml">
+                <tree string="Messages Project" create="false" delete="0" edit="false">
+                    <field name="date"/>
+                    <field name="author_id"/>
+                    <field name="subject"/>
+                    <field name="body"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="project_task_message_form" model="ir.ui.view">
+            <field name="name">project_task_message_form</field>
+            <field name="model">mail.message</field>
+            <field name="domain">[('model','=','project.task')]</field>
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <form string="Message Project" create="false" delete="0" edit="false">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <field name="attachment_ids_count" invisible="1"/>
+                            <button name="action_direct_attachment" type="object"
+                                    class="oe_stat_button float-right" icon="fa-book"
+                                    attrs="{'invisible': [('attachment_ids_count', '&lt;=', 0)]}">
+                                <field name="attachment_ids_count_string"/>
+                            </button>
+                        </div>
+                        <group>
+                            <h1>
+                                <field name="subject"/>
+                            </h1>
+                            <field name="date"/>
+                            <field name="email_from"/>
+                            <field name="author_id"/>
+                            <field name="project_task_name"/>
+                            <field name="project_name"/>
+                        </group>
+                        <notebook>
+                            <page string="Body">
+                                <field name="body" options="{'style-inline': true}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <record id="message_seen_project" model="ir.actions.act_window">
+            <field name="name">Messages Project</field>
+            <field name="create">false</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mail.message</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('project_task_message_tree')}),
+                                                     (0, 0, {'view_mode': 'form', 'view_id': ref('project_task_message_form')})]"/>
+        </record>
+
+        <record model="ir.actions.server" id="message_seen_project_server">
+            <field name="name">Res Partner Server Action</field>
+            <field name="model_id" ref="model_mail_message"/>
+            <field name="binding_model_id" ref="model_mail_message"/>
+            <field name="state">code</field>
+            <field name="code">
+                action = model.action_window()
+            </field>
+        </record>
+
+        <menuitem id="project_seen_id" name="Project Messages" parent="mail.menu_root_discuss"
+                  action="message_seen_project_server" sequence="1"/>
+        <record id="message_seen_crm" model="ir.actions.act_window">
+            <field name="name">Messages CRM</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mail.message</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain" eval="[('model','=','crm.lead')]"></field>
+            <field name="limit">30</field>
+        </record>
+        <menuitem id="crm_seen_id" name="CRM Messages" parent="mail.menu_root_discuss" action="message_seen_crm"
+                  sequence="2"/>
+    </data>
+</odoo>

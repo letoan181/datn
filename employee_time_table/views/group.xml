@@ -1,0 +1,24 @@
+<odoo>
+    <data>
+        <!--        set group admin-->
+        <record model="res.groups" id="group_admin_timetable">
+            <field name="name"># Employee Timetable - Manager</field>
+<!--            <field name="implied_ids" eval="[(4, ref('base.group_system'))]"/>-->
+        </record>
+        <!--        set group to set dayoff-->
+        <record model="res.groups" id="group_set_dayoff_timetable">
+            <field name="name"># Employee Timetable - Set dayoff rights</field>
+<!--            <field name="implied_ids" eval="[(4, ref('base.group_system'))]"/>-->
+        </record>
+        <!--        set group see birthday-->
+        <record model="res.groups" id="group_see_birthday">
+            <field name="name"># Employee Timetable - View all employees' birthday</field>
+<!--            <field name="implied_ids" eval="[(4, ref('base.group_system'))]"/>-->
+        </record>
+        <!--        set group see created date-->
+        <record model="res.groups" id="group_see_create_date">
+            <field name="name">#Employee Timetable - View all employees' created date</field>
+<!--            <field name="implied_ids" eval="[(4, ref('base.group_system'))]"/>-->
+        </record>
+    </data>
+</odoo>

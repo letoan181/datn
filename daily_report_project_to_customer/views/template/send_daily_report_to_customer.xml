@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+        <record id="send_daily_report_to_customer_1" model="mail.template">
+            <field name="name">Send daily report to Customer</field>
+            <field name="subject">Project Daily Report</field>
+            <field name="email_to">${object.partner_id.email|safe}</field>
+            <field name="model_id" ref="project.model_project_project"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="lang">${object.lang}</field>
+            <field name="body_html">
+                <![CDATA[
+% set timesheets = object.timesheets
+<div style="padding:0px;margin:auto;background: #FFFFFF repeat top /100%;">
+    <h2>Timesheet of project ${object.name}<h2>
+    <style>
+        #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+        #customers tr:hover {background-color: #ddd;}
+    </style>
+    <table id="customers" style="font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;border-collapse: collapse;width: 100%;">
+        <tr>
+            <th style="border: 1px solid #ddd;padding: 8px;padding-top: 12px;padding-bottom: 12px; text-align: left;border-collapse: collapse;">Date</th>
+            <th style="border: 1px solid #ddd;padding: 8px;padding-top: 12px;padding-bottom: 12px; text-align: left;border-collapse: collapse;">Employee</th>
+            <th style="border: 1px solid #ddd;padding: 8px;padding-top: 12px;padding-bottom: 12px; text-align: left;border-collapse: collapse;">Name</th>
+            <th style="border: 1px solid #ddd;padding: 8px;padding-top: 12px;padding-bottom: 12px; text-align: left;border-collapse: collapse;">Project</th>
+            <th style="border: 1px solid #ddd;padding: 8px;padding-top: 12px;padding-bottom: 12px; text-align: left;border-collapse: collapse;">Task</th>
+            <th style="border: 1px solid #ddd;padding: 8px;padding-top: 12px;padding-bottom: 12px; text-align: left;border-collapse: collapse;">Time(Hours)</th>
+        </tr>
+        <div>
+        % if timesheets:
+             % for timesh in timesheets:
+                 % if timesh.date == (datetime.datetime.now() + relativedelta(hours=7)).strftime('%Y-%m-%d') :
+                    <tr>
+                        <td style="border: 1px solid #ddd;padding: 8px;border-collapse: collapse;">
+                            % if timesh.date:
+                                ${timesh.date}
+                            % else:
+                                <span style="margin-left:5px">Error</span>
+                            % endif
+                        </td>
+                        <td style="border: 1px solid #ddd;padding: 8px;border-collapse: collapse;">
+                            % if timesh.employee_id.name:
+                                ${timesh.employee_id.name}
+                            % else:
+                                <span style="margin-left:5px">Error</span>
+                            % endif
+                        </td>
+                        <td style="border: 1px solid #ddd;padding: 8px;border-collapse: collapse;">
+                            % if timesh.name:
+                                ${timesh.name}
+                            % else:
+                                <span style="margin-left:5px">Error</span>
+                            % endif
+                        </td>
+                        <td style="border: 1px solid #ddd;padding: 8px;border-collapse: collapse;">
+                            % if timesh.project_id.name:
+                                ${timesh.project_id.name}
+                            % else:
+                                <span style="margin-left:5px">Error</span>
+                            % endif
+                        </td>
+                        <td style="border: 1px solid #ddd;padding: 8px;border-collapse: collapse;">
+                            % if timesh.task_id.name:
+                                ${timesh.task_id.name}
+                            % else:
+                                <span style="margin-left:5px">Error</span>
+                            % endif
+                        </td>
+                        <td style="border: 1px solid #ddd;padding: 8px;border-collapse: collapse;">
+                            % if timesh.unit_amount:
+                                ${timesh.unit_amount}
+                            % else:
+                                <span style="margin-left:5px">Error</span>
+                            % endif
+                        </td>
+                    </tr>
+                 % endif
+            % endfor
+        % endif
+        </div>
+    </table>
+</div>]]></field>
+        </record>
+    </data>
+</odoo>

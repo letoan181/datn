@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record model="res.groups" id="group_register_payment">
+            <field name="name">S. Invoice - Register Payments</field>
+<!--            <field name="implied_ids" eval="[(4, ref('base.group_system'))]"/>-->
+        </record>
+        <record model="res.groups" id="group_invoice_add_credit_note">
+            <field name="name">S. Invoice - Add Credit Note</field>
+<!--            <field name="implied_ids" eval="[(4, ref('base.group_system'))]"/>-->
+        </record>
+        <record model="res.groups" id="group_invoice_cancel">
+            <field name="name">S. Invoice - Cancel</field>
+<!--            <field name="implied_ids" eval="[(4, ref('base.group_system'))]"/>-->
+        </record>
+    </data>
+</odoo>
+

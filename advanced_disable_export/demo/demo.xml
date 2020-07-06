@@ -1,0 +1,12 @@
+<odoo>
+    <data noupdate="0">
+    <record id="group_import_lead" model="res.groups">
+        <field name="name">#Import Lead </field>
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
+   <record id="group_export_lead" model="res.groups">
+        <field name="name">#Export Lead </field>
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+   </record>
+</data>
+</odoo>

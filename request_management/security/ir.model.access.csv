@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_advanced_request_detail,access_advanced_request_detail,model_advanced_request_detail,base.group_user,1,1,1,1
+access_advanced_cancel_reason,access_advanced_cancel_reason,model_advanced_refuse_reason,,1,1,1,1
+access_request_group_admin,access_request_group_admin,model_advanced_request_management,request_management.request_group_admin,1,1,1,1
+access_request_group_employee,access_request_group_employee,model_advanced_request_management,request_management.request_group_employee,1,1,1,1

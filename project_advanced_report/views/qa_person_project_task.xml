@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="qa_person_project_task" model="ir.ui.view">
+            <field name="name">qa.person</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='tag_ids']" position="after">
+                    <field name="project_id" invisible="1"></field>
+                    <field name="project_message_user_ids" invisible="1"></field>
+                    <field name="qa_person" string='QA Person' domain='[("id", "in", project_message_user_ids)]'/>
+                    <field name="qa_deadline" string='QA Deadline (Days)'/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

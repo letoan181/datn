@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="mailing_mailing_form_update_mail_server_id">
+            <field name="name">mailing_mailing_form_update_mail_server_id</field>
+            <field name="model">mailing.mailing</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="mass_mailing.view_mail_mass_mailing_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='mail_server_id']" position="replace">
+                    <field name="mail_server_id" options="{'no_create': True, 'no_open': True}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

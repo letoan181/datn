@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+       <!-- Inherit Form View to Modify it -->
+       <record id="task_type_edit_inherit_for_report" model="ir.ui.view">
+           <field name="name">Project task type inherit</field>
+           <field name="model">project.task.type</field>
+           <field name="inherit_id" ref="project.task_type_edit"/>
+           <field name="arch" type="xml">
+
+               <xpath expr="//field[@name='rating_template_id']" position="after">
+                   <!-- Add your fields or attributes here -->
+                   <field name="use_in_task_deadline"/>
+               </xpath>
+
+           </field>
+       </record>
+
+    </data>
+</odoo>

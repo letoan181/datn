@@ -1,0 +1,81 @@
+<odoo>
+    <data>
+        <!--        <record id="custom_follow_form_task" model="ir.ui.view">-->
+        <!--            <field name="name">Unsubtype</field>-->
+        <!--            <field name="model">project.task</field>-->
+        <!--            <field name="inherit_id" ref="project.view_task_form2"/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <xpath expr="//header" position="inside">-->
+        <!--                    <button name="un_follow_other_people_task" string="Un-follow Other People Tasks Of Current Project"-->
+        <!--                            type="object"/>-->
+        <!--                </xpath>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
+        <record id="un_follow_other_people_task_form" model="ir.ui.view">
+            <field name="name">project.task.unfollow.project</field>
+            <field name="model">project.task.unfollow.project</field>
+            <field name="arch" type="xml">
+                <form string="Un follow other people task">
+                    <sheet>
+                        <field name="project">
+                            <tree>
+                                <field name="name"/>
+                            </tree>
+                        </field>
+                        <footer>
+                            <button name="un_follow_other_people_task_of_project" type="object"
+                                    string="Confirm" class="oe_highlight"/>
+                            or
+                            <button special="cancel" string="Cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="follow_other_people_task_form" model="ir.ui.view">
+            <field name="name">project.task.follow.project</field>
+            <field name="model">project.task.follow.project</field>
+            <field name="arch" type="xml">
+                <form string="Un follow other people task">
+                    <sheet>
+                        <field name="project">
+                            <tree>
+                                <field name="name"/>
+                            </tree>
+                        </field>
+                        <footer>
+                            <button name="follow_other_people_task_of_project" type="object"
+                                    string="Confirm" class="oe_highlight"/>
+                            or
+                            <button special="cancel" string="Cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <act_window id="un_follow_other_people_task"
+                    name="# Un-follow Other People Task Of Current Project"
+                    binding_model="project.task"
+                    res_model="project.task.unfollow.project"
+                    binding_views="form"
+                    view_mode="form"
+                    context="{'create': False}"
+                    view_id="unfollow_other_people_task.un_follow_other_people_task_form"
+                    target="new"/>
+
+        <act_window id="add_follow_other_people_task"
+                    name="# Follow Other People Tasks Of Current Project"
+                    binding_model="project.task"
+                    res_model="project.task.follow.project"
+                    binding_views="form"
+                    view_mode="form"
+                    context="{'create': False}"
+                    view_id="unfollow_other_people_task.follow_other_people_task_form"
+                    target="new"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record model="res.groups" id="group_cancel_purchase_order">
+            <field name="name">#2. Purchase Order - Cancel</field>
+        </record>
+    </data>
+</odoo>
+

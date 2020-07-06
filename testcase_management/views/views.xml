@@ -1,0 +1,322 @@
+<odoo>
+    <data>   <!--sequence number for testcase  -->
+        <record id="increment_your_field_sequence" model="ir.sequence">
+            <field name="name">Test Case Incrementation</field>
+            <field name="code">increment_testcase_order</field>
+            <field name="prefix"></field>
+            <field name="padding">3</field>
+        </record>
+        <record model="ir.ui.view" id="view_tree_testcase_management_step">
+            <field name="name">testcase_management_step list</field>
+            <field name="model">testcase_management.step</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="expected_result"/>
+                    <field name="actual_result"/>
+                </tree>
+            </field>
+        </record>   <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="testcase_management.list">
+            <field name="name">testcase_management list</field>
+            <field name="model">testcase_management.testcase_management</field>
+<!--            <field name="domain">[('project_id', '=', active_id)]</field>-->
+<!--            <field name="context">{"default_project_id": active_id, 'default_search_project_id': active_id,-->
+<!--                'project_id':active_id}-->
+<!--            </field>-->
+            <field name="arch" type="xml">
+                <tree string="TestCase Management" js_class="test_bills_tree">
+                    <field name="orderno"/>
+                    <field name="name"/>
+                    <field name="suitname"/>
+                    <field name="state" widget="tester_state_test" class="tc_state"/>
+                    <field name="dev_state" widget="state_test" class="tc_dev_state"/>
+                    <field name="precondition"/>
+                    <field name="stepNames"/>
+                    <field name="expectedResult"/>
+                    <field name="actualResult"/>
+                    <field name="imgLink" widget="link_minimize"/>
+                    <field name="criticality"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_form_testcase_management_suit" model="ir.ui.view">
+            <field name="model">testcase_management.suit</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="name"/>
+                </form>
+            </field>
+        </record>   <!--end test suit form-->
+        <record id="view_form_testcase_management_testcase_management" model="ir.ui.view">
+            <field name="model">testcase_management.testcase_management</field>
+            <field name="priority">15</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>   <!-- To add buttons and status widget -->
+                        <field name="state" invisible="True"/>
+                    </header>
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="do_archive" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_toggle"
+                                       options='{"terminology": "archive"}'/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <label for="name"/>
+                                <field name="name" required="1"/>
+                            </h1>
+                            <h4>
+                                <span class="oe_read_only">Status :</span>
+                                <label for="state" class="oe_edit_only"/>
+                                <field name="state"/>
+                                <span class="oe_edit_only">Mark as re-test</span>
+                                <field name="markAsRetest" class="oe_edit_only"/>
+                                <field name="lastUpdatedState" class="oe_read_only"/>
+                            </h4>
+                            <h4>
+                                <label for="dev_state"/>
+                                <field name="dev_state"/>
+                                <span class="oe_edit_only">Mark as re-fixed</span>
+                                <field name="markAsReFixed"/>
+                                <field name="lastDevUpdatedState" class="oe_read_only"/>
+                                <div></div>
+                                <field name="orderno" class="oe_read_only"/>
+                            </h4>
+                        </div>   <!-- More elements will be added from here... -->
+                        <group name="group_top">
+                            <group name="group_left">
+                                <field name="suit_id"
+                                       domain="[('project_id', '=', project_id)]">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                    </tree>
+                                </field>
+                                <field name="user_id"/>
+                                <field name="project_id" required="1"/>
+                                <field name="task_id" domain="[('project_id', '=', project_id)]"/>
+                                <field name="criticality"/>
+                                <field name="type"/>
+                            </group>
+                            <group name="group_right">
+                                <field name="approved"/>
+                                <field name="image"/>
+                                <field name="precondition"/>
+                                <field name="note"/>   <!-- <field name="test_data"/>   <field name="expected_result"/>   <field name="actual_result"/>-->
+                                <field name="test_resource"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Step" name="step_page">
+                                <field name="step_ids" widget="one2many_list" mode="tree"
+                                       context="{'default_test_id': id,'test_id': active_id}">
+                                    <tree editable="bottom" string="Step Test">
+                                        <field name="sortOrder" widget="handle"/>
+                                        <field name="name" required="1"/>
+                                        <field name="test_data" class="step_testdata_field"/>
+                                        <field name="expected_result"/>
+                                        <field name="actual_result"/>
+                                        <field name="image_link" widget="url"/>
+                                        <field name="note"/>
+                                        <field name="dev_note"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <notebook>
+                            <page string="Image" name="image_page">
+                                <field name="img_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="view_testcase_search_form" model="ir.ui.view">
+            <field name="name">project.testcase.search.form</field>
+            <field name="model">testcase_management.testcase_management</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Testcase">
+                    <field name="orderno" string="STT"/>
+                    <field name="name" string="Title"/>
+                    <field name="suitname" string="Suit Name"/>
+                    <field name="project_id" filter_domain="[('project_id','ilike',self)]"/>
+                    <field name="active"/>
+                    <filter string="All"
+                            domain="['|',('active','=',False),('active','=',True)]"
+                            name='filter_test_case_all'/>
+                    <filter string="Archived"
+                            domain="[('active','=',False)]"
+                            name='filter_test_case_archived'/>
+                    <separator/>
+                    <filter string="Re-fixed Failed Fixed"
+                            domain="['&amp;', ('state','=','1'),'&amp;', ('dev_state', '=', '0'), '&amp;', ('re_fixed_failed_fixed', '=', '1'),]"
+                            help="Re-fixed Failed Fixed"
+                            name='filter_re_fixed_ff_testcase'/>   <!--<filter  string="Re-fixed" domain="['&amp;', ('state','=','1'),'&amp;', ('dev_state', '=', '0'), '&amp;', ('re_fixed', '=', '1'),]" help="Re-fixed" name='filter_re-fixed_testcase'/>-->
+                    <filter string="Re-tested Failed Fixed"
+                            domain="['&amp;', ('state','=','1'),'&amp;', ('dev_state', '=', '0'), '&amp;', ('re_tested_failed_fixed', '=', '1'),]"
+                            help="Re-tested Failed and fixed"
+                            name='filter_re_tested_ff_testcase'/>   <!--<filter  string="Re-tested" domain="['&amp;', ('state','=','1'),'&amp;', ('dev_state', '=', '0'), '&amp;', ('re_tested', '=', '1'),]" help="Re-tested" name='filter_re-tested_testcase'/>-->
+                    <filter string="# Is Mark as re-fixed"
+                            domain="[('markAsReFixed','=','1')]"
+                            help="Is Mark as re-fixed"
+                            name='filter_mark_as_re_fixed'/>
+                    <filter string="# Is Mark as re-test"
+                            domain="[('markAsRetest','=','1')]"
+                            help="Is Mark as re-test"
+                            name='filter_mark_as_re_tested'/>
+                    <separator/>
+                    <filter string="# Tester - Failed"
+                            domain="[('state','=','1')]"
+                            help="Failed"
+                            name='test_case_filter_failed'/>
+                    <filter string="# Tester - Passed"
+                            domain="[('state','=','0')]"
+                            help="Passed"
+                            name='test_case_filter_passed'/>
+                    <filter string="# Tester - Untested"
+                            domain="[('state','=','2')]"
+                            help="Untested"
+                            name='test_case_filter_untested'/>
+                    <filter string="# Tester - Need Further Discussion"
+                            domain="[('state','=','3')]"
+                            help="Need Further Discussion"
+                            name='test_case_filter_need_further_discussion'/>
+                    <separator/>
+                    <filter string="# Dev - Fixed"
+                            domain="[('dev_state','=','0')]"
+                            help="Fixed"
+                            name='test_case_filter_dev_state_fixed'/>
+                    <filter string="# Dev - Wont Fix"
+                            domain="[('dev_state','=','1')]"
+                            help="Wont fix"
+                            name='test_case_filter_dev_state_wont_fixed'/>
+                    <separator/>
+                </search>
+            </field>
+        </record>   <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="testcase_management_action_window">
+            <field name="name" eval="'Testcases Management' "/>
+            <field name="res_model">testcase_management.testcase_management</field>
+            <field name="view_mode">tree,form,search</field>
+            <field name="view_id" ref="testcase_management.list"/>
+            <field name="context">{ 'search_default_project_id': [active_id], 'default_project_id':active_id, }</field>
+            <field name="domain">[('project_id', '=', active_id)]</field>
+            <field name="search_view_id" ref="view_testcase_search_form"/>
+        </record>   <!-- server action to the one above -->
+        <record model="ir.actions.server" id="testcase_management.action_server">
+            <field name="name">testcase_management server</field>
+            <field name="model_id" ref="model_testcase_management_testcase_management"/>
+            <field name="state">code</field>
+            <field name="code">action = { "type": "ir.actions.act_window", "view_mode": "tree,form", "res_model":
+                self._name, }
+            </field>
+        </record>   <!-- Smart Button Action-->
+<!--        <act_window id="action_testcase_management_testcase_management_button" name="TestCase Management"-->
+<!--                    binding_model="testcase_management.testcase_management" view_mode="tree,form"-->
+<!--                    domain="[('project_id','=',active_id)]"/>-->
+<!--        <act_window id="action_testcase_management_project_button" name="TestCase Management Project"-->
+<!--                    binding_model="testcase_management.project" view_mode="tree,form"-->
+<!--                    domain="[('project_id','=',active_id)]"/>   &lt;!&ndash;  <record id="project_test_form" model="ir.ui.view">   <field name="name">Inherit project form : Testing Data</field>   <field name="model">project.project</field>   <field name="inherit_id" ref="project.edit_project"/>   <field name="priority">24</field>   <field name="arch" type="xml">   <button name="toggle_active" position="before">   <button class="oe_stat_button"  name="%(action_testcase_management_testcase_management_button)d"  help="All to-dos for this user"  type="action" icon="fa-calendar"  string="TestCase" />   <button class="oe_stat_button"  name="%(action_testcase_management_project_button)d"  help="Testcases for this user"  type="action" icon="fa-calendar"  string="TestCase Project" groups="base.group_user" />   </button>   </field>   </record>&ndash;&gt;-->
+        <record id="project_project_view_kanban_inherit_testcase" model="ir.ui.view">
+            <field name="name">project.project.kanban.inherit.testcase.testcase</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="hr_timesheet.view_project_kanban_inherited"/>
+            <field name="groups_id" eval="[(4, ref('base.group_user'))]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//a[@t-if='record.allow_timesheets.raw_value']" position="after">
+                    <a context="{'default_project_id': active_id,'search_default_project_id': active_id,'active_id':active_id,'use_domain': [('project_id', '=', active_id)]}"
+                       name="action_view_testcase" type="object" class="o_project_kanban_box o_project_timesheet_box"
+                       groups="base.group_user">
+                        <div>
+                            <span class="o_label">TestCase</span>
+                        </div>
+                    </a>
+                </xpath>
+            </field>
+        </record>
+        <record id="select_duplicate_testcase_form" model="ir.ui.view">
+            <field name="name">Select Duplicate Test Case For Other Project</field>
+            <field name="model">duplicate.testcase</field>
+            <field name="arch" type="xml">
+                <form string="Select Duplicate Test Case For Other Project">
+                    <sheet>
+                        <group>
+                            <field name="project_id" string="#Project" readonly="0"/>
+                            <field name="task_ids" domain="[('project_id', '=', project_id)]" string="#Task"/>
+                        </group>
+                        <field name="duplicate_testcase">
+                            <tree string="TestCase Management" js_class="test_bills_tree">
+                                <control>
+                                    <create string="Add a Testcase"/>
+                                </control>
+                                <field name="orderno"/>
+                                <field name="name"/>
+                                <field name="suitname"/>
+                                <field name="state" widget="tester_state_test" class="tc_state"/>
+                                <field name="dev_state" widget="state_test" class="tc_dev_state"/>
+                                <field name="precondition"/>
+                                <field name="stepNames"/>
+                                <field name="expectedResult"/>
+                                <field name="actualResult"/>
+                                <field name="imgLink" widget="link_minimize"/>
+                                <field name="criticality"/>
+                            </tree>
+                        </field>
+                        <footer>
+                            <button name="copy_testcase"
+                                    string="Duplicate Test Case"
+                                    type="object" class="oe_highlight"/>
+                            <button special="cancel" string="Cancel" class="oe_highlight" type="object"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <act_window id="select_duplicate_testcase"
+                    name="# Duplicate"
+                    binding_model="testcase_management.testcase_management"
+                    res_model="duplicate.testcase"
+                    binding_views="list,form"
+                    view_mode="form"
+                    context="{'create': False}"
+                    view_id="testcase_management.select_duplicate_testcase_form"
+                    target="new"/>
+        <record id="testcase_list_massaction_archive" model="ir.actions.server">
+            <field name="name"># Archive</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_testcase_management_testcase_management"/>
+            <field name="binding_model_id" ref="model_testcase_management_testcase_management"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+if records:
+    action = records.force_archive()
+            </field>
+        </record>
+        <record id="testcase_list_massaction_unarchive" model="ir.actions.server">
+            <field name="name"># Un-Archive</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_testcase_management_testcase_management"/>
+            <field name="binding_model_id" ref="model_testcase_management_testcase_management"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+if records:
+    action = records.force_un_archive()
+            </field>
+        </record>
+
+
+        <!-- Top menu item -->   <!--<menuitem name="Test Case Management" id="testcase_management.menu_root" groups="base.user_admin"/>-->   <!--<menuitem name="Menu 1" id="testcase_management.menu_1" parent="testcase_management.menu_root"  groups="base.user_admin"/>-->   <!--<menuitem name="Menu 2" id="testcase_management.menu_2" parent="testcase_management.menu_root"  groups="base.user_admin" />-->   <!--&lt;!&ndash; actions &ndash;&gt;-->   <!--<menuitem name="List" id="testcase_management.menu_1_list" parent="testcase_management.menu_1"  groups="base.user_admin"-->   <!--action="testcase_management.action_window"/>-->   <!--<menuitem name="Server to list" id="testcase_management" parent="testcase_management.menu_2"  groups="base.user_admin"-->   <!--action="testcase_management.action_server"/>-->
+    </data>
+</odoo>

@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="configuration_form_view" model="ir.ui.view">
+        <field name="name">Configuration Form View</field>
+        <field name="model">zendesk.update</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button string="Update Zendesk" type="object" class="oe_highlight" name="update_zendesk"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="last_update_user_time"/>
+                            <field name="last_update_ticket_time"/>
+                        </group>
+                        <group>
+                            <field name="zendesk_domain"/>
+                            <field name="zendesk_username"/>
+                            <field name="zendesk_api_token" password="True"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="configuration_tree_view" model="ir.ui.view">
+        <field name="name">Configuration Tree View</field>
+        <field name="model">zendesk.update</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="zendesk_username"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="zendesk_menu_action" model="ir.actions.act_window">
+        <field name="name">Zendesk Menu</field>
+        <field name="res_model">zendesk.update</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

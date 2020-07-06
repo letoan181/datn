@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="cron_job_update_zendesk" model="ir.cron">
+            <field name="name"># Update Zendesk</field>
+            <field name="model_id" ref="model_zendesk_update"/>
+            <field name="state">code</field>
+            <field name="code">model.update_zendesk()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+        </record>
+
+        <record id="zendesk_group_manager" model="res.groups">
+            <field name="name"># Zendesk Manager</field>
+        </record>
+        <record id="zendesk_group_user" model="res.groups">
+            <field name="name"># Zendesk User</field>
+        </record>
+    </data>
+</odoo>

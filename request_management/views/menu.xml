@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+        <menuitem id="advanced_menu_request_management" name="Request Management" sequence="0"
+                  action="advanced_action_request_management"
+                  icon="request_management,static/description/logo.png"
+                  web_icon="request_management,static/description/logo.png"
+                  web_icon_hover="request_management,static/description/logo.png"/>
+        <menuitem id="advanced_menu_request_management_request" name="Request" sequence="1"
+                  action="advanced_action_request_management"
+                  parent="advanced_menu_request_management"/>
+        <menuitem id="advanced_menu_request_dashboard" parent="advanced_menu_request_management" name="Dashboard"
+                  sequence="0"/>
+        <menuitem id="advanced_menu_request_report" parent="advanced_menu_request_management"
+                  action="request_report_act" name="Report" sequence="2"/>
+    </data>
+</odoo>

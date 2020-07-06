@@ -1,0 +1,35 @@
+<odoo>
+    <data>
+        <record id="action_direct_attachments" model="ir.actions.act_window">
+            <field name="name">Related Attachments</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ir.attachment</field>
+            <field name="view_mode">kanban,form</field>
+            <field name="view_id" ref="base.view_attachment_form"/>
+        </record>
+        <record id="direct_meeting_attachments_button_view" model="ir.ui.view">
+            <field name="name">direct.meeting.attachments.button.view</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_open_calendar_event']" position="before">
+                    <button name="action_direct_attachment" class="oe_stat_button float-right" type="object"
+                            string="Attachments" icon="fa-bars"
+                    />
+                </xpath>
+            </field>
+        </record>
+<!--        <record id="direct_meeting_attachments_button_view_popup" model="ir.ui.view">-->
+<!--            <field name="name">direct.meeting.attachments.button.view.popup</field>-->
+<!--            <field name="model">calendar.event</field>-->
+<!--            <field name="inherit_id" ref="calendar.view_calendar_event_form_popup"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//button[@name='action_open_calendar_event']" position="before">-->
+<!--                    <button name="action_direct_attachment" class="oe_stat_button float-right" type="object"-->
+<!--                            string="Direct Attachments" icon="fa-bars"-->
+<!--                    />-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+    </data>
+</odoo>

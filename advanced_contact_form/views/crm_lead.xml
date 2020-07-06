@@ -1,0 +1,52 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="crm_lead_inherit_view">
+            <field name="name">crm.lead.form</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='team_id']" position="after">
+                    <field name="source_id"/>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="crm_lead_inherit_tree_view">
+            <field name="name">crm.lead.inherit.form</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='team_id']" position="after">
+                    <field name="source_id"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="utm_source_action" model="ir.actions.act_window">
+            <field name="name">Utm Source</field>
+            <field name="res_model">utm.source</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No Source Found
+                </p>
+                <p>
+                    Create new Source
+                </p>
+            </field>
+        </record>
+        <menuitem name="UTM Source"
+                id="menu_utm_source_action"
+                action="utm_source_action"
+                parent="crm.crm_menu_config"/>
+        <!--        add id to utm source tree view-->
+        <record model="ir.ui.view" id="utm_source_view_tree_inherit_id">
+            <field name="name">utm.source.inherit.tree.id</field>
+            <field name="model">utm.source</field>
+            <field name="inherit_id" ref="utm.utm_source_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="id"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

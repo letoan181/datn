@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_certificate_history,access_certificate_history,model_certificate_history,,1,1,1,1
+access_question_answer,access_question_answer,model_question_answer,,1,1,1,1
+access_text_answer_detail,access_text_answer_detail,model_text_answer_detail,,1,1,1,1

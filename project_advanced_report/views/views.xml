@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="the_total_amounts_project" model="ir.ui.view">
+        <field name="name">the total amounts project</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="the_total_amounts" groups="project_advanced_report.group_price_project"/>
+            </xpath>
+
+        </field>
+    </record>
+    <record id="task_archived" model="ir.ui.view">
+        <field name="name">task archived</field>
+        <field name="model">report.project.task.user</field>
+        <field name="inherit_id" ref="project.view_task_project_user_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='new']" position="after">
+                <separator/>
+                <filter string="Task Archived" name="filter_tasks" domain="[('filter_tasks','=', False)]"/>
+                <filter string="Task Not Archived" name="filter_tasks" domain="[('filter_tasks','=', True)]"/>
+            </xpath>
+        </field>
+    </record>
+    <!--    update follower js-->
+    <!--    <template id="assets_backend_follower" name="handle follower assets" inherit_id="web.assets_backend">-->
+    <!--        <xpath expr="." position="inside">-->
+    <!--            <script type="text/javascript"-->
+    <!--                    src="/project_advanced_report/static/src/js/follower.js"/>-->
+    <!--        </xpath>-->
+    <!--    </template>-->
+
+<!--    <record id="unlink_project" model="ir.ui.view">-->
+<!--        <field name="name">project.project.form.unlink.inherit</field>-->
+<!--        <field name="model">project.project</field>-->
+<!--        <field name="inherit_id" ref="project.edit_project"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//field[@name='subtask_project_id']" position="after">-->
+<!--                <button class="oe_stat_button" icon="fa-filter" string="Filter Employee For Project" name="filter_employee_follower_project" type="object"></button>-->
+<!--            </xpath>-->
+
+<!--        </field>-->
+<!--    </record>-->
+
+</odoo>

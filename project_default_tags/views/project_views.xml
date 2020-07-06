@@ -1,0 +1,37 @@
+<odoo>
+    <data>
+        <!-- Inherit Project Quick Form View to Modify it -->
+        <record id="project_quick_form_inherit" model="ir.ui.view">
+            <field name="name">project.form.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.project_project_view_form_simplified"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="tags_ids" widget="many2many_tags" required="True"/>
+                </xpath>
+            </field>
+        </record>
+        <!-- Inherit Project Form View to Modify it -->
+        <record id="project_form_inherit" model="ir.ui.view">
+            <field name="name">project.form.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="tags_ids" widget="many2many_tags" required="True"/>
+                </xpath>
+            </field>
+        </record>
+        <!-- Inherit Task Form View to Modify it -->
+        <!--      <record id="project_task_quick_form_inherit" model="ir.ui.view">-->
+        <!--          <field name="name">project.task.quick.form.inherit</field>-->
+        <!--          <field name="model">project.task</field>-->
+        <!--          <field name="inherit_id" ref="project.quick_create_task_form"/>-->
+        <!--          <field name="arch" type="xml">-->
+        <!--              <xpath expr="//field[@name='name']" position="after">-->
+        <!--                  <field name="tag_ids" widget="many2many_tags"/>-->
+        <!--              </xpath>-->
+        <!--          </field>-->
+        <!--      </record>-->
+    </data>
+</odoo>

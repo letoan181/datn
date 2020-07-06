@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--company asset inventory-->
+        <record id="inventory_master" model="hr.employee">
+            <field name="name">Company Assets</field>
+        </record>
+
+        <!-- auto send message-->
+        <record id="eq_stage_changed" model="mail.message.subtype">
+            <field name="name">EQ Stage Changed</field>
+            <field name="res_model">maintenance.equipment</field>
+            <field name="default" eval="True"/>
+            <field name="description">EQ Stage changed</field>
+        </record>
+
+        <!--group user-->
+        <record model="res.groups" id="group_manager_equipment">
+            <field name="name">#Equipments Manager </field>
+<!--            <field name="implied_ids" eval="[(4, ref('base.group_system'))]"/>-->
+        </record>
+
+        <record model="res.groups" id="group_user_equipment">
+            <field name="name">#Equipments Users</field>
+<!--            <field name="implied_ids" eval="[(4, ref('base.group_system'))]"/>-->
+        </record>
+    </data>
+</odoo>

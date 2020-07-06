@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="request_group_admin" model="res.groups">
+            <field name="name"># Request Admin</field>
+            <field name="category_id" ref=""/>
+<!--            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>-->
+        </record>
+        <record id="request_group_admin_rule" model="ir.rule">
+            <field name="name"># Request Admin rule</field>
+            <field ref="model_advanced_request_management" name="model_id"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('request_group_admin'))]"/>
+        </record>
+
+        <record id="request_group_employee" model="res.groups">
+            <field name="name"># Request Employee</field>
+            <field name="category_id" ref=""/>
+<!--            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>-->
+        </record>
+        <record id="request_group_employee_rule" model="ir.rule">
+            <field name="name"># Request Management - Employee Rule</field>
+            <field ref="model_advanced_request_management" name="model_id"/>
+            <field name="domain_force">['|',('create_uid','=',user.id),'|', ('assign_to.user_id','=',user.id),('message_partner_ids', 'in', [user.partner_id.id])]</field>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="groups" eval="[(4, ref('request_group_employee'))]"/>
+        </record>
+
+    </data>
+</odoo>

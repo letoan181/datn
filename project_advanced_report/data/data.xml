@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Stages -->
+    <record id="advanced_project_stage_resource" model="project.task.type">
+        <field name="sequence">1</field>
+        <field name="name">Resource</field>
+        <field name="legend_blocked">Resource</field>
+        <field name="stage_type">resource</field>
+    </record>
+    <record id="advanced_project_stage_todo" model="project.task.type">
+        <field name="sequence">1</field>
+        <field name="name">Todo</field>
+        <field name="legend_blocked">Todo</field>
+        <field name="stage_type">todo</field>
+    </record>
+    <record id="advanced_project_stage_inprogress" model="project.task.type">
+        <field name="sequence">1</field>
+        <field name="name">In Progress</field>
+        <field name="legend_blocked">Todo</field>
+        <field name="stage_type">todo</field>
+    </record>
+    <record id="advanced_project_stage_qa" model="project.task.type">
+        <field name="sequence">1</field>
+        <field name="name">QA</field>
+        <field name="legend_blocked">QA</field>
+        <field name="stage_type">qa</field>
+    </record>
+    <record id="advanced_project_stage_done" model="project.task.type">
+        <field name="sequence">1</field>
+        <field name="name">Done</field>
+        <field name="legend_blocked">Done</field>
+        <field name="stage_type">done</field>
+    </record>
+
+    <!--    demo data mail.activity.type-->
+
+    <record id="mail_act_schedule_qa" model="mail.activity.type">
+        <field name="name">QA</field>
+        <field name="icon">fa-sun-o</field>
+        <field name="res_model_id" ref="project.model_project_task"/>
+    </record>
+
+    <record id="res_groups_customer_time_sheet_view" model="res.groups">
+        <field name="name"># Customer Virtual Time Sheet</field>
+    </record>
+
+    <record id="res_groups_can_update_customer_time_sheet_view" model="res.groups">
+        <field name="name"># Can Update - Customer Virtual Time Sheet</field>
+    </record>
+
+    <record id="res_groups_can_see_man_month" model="res.groups">
+        <field name="name"># Can see Man-Month</field>
+    </record>
+
+    <record id="user_can_see_report_miss_deadline" model="res.groups">
+        <field name="name"># User can see report miss deadline</field>
+    </record>
+    <record id="user_all_access_report_miss_deadline" model="res.groups">
+        <field name="name"># User has all access report miss deadline</field>
+<!--        <field name="implied_ids" eval="[(4, ref('project_advanced_report.user_all_access_report_miss_deadline'))]"/>-->
+    </record>
+
+</odoo>

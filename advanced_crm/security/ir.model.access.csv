@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_admin_crm_project_type,access_admin_crm_project_type,model_crm_project_type,base.group_system,1,1,1,1
+access_crm_project_type,access_crm_project_type,model_crm_project_type,base.group_user,1,0,0,0
+access_admin_crm_lead_location,access_admin_crm_lead_location,model_crm_lead_location,base.group_system,1,1,1,1
+access_user_crm_lead_location,access_user_crm_lead_location,model_crm_lead_location,base.group_user,1,0,0,0
+access_crm_lead_status,access_crm_lead_status,model_crm_lead_status,base.group_user,1,1,1,1
+access_crm_lead_guideline,access_crm_lead_guideline,model_crm_lead_guideline,,1,1,1,1
+access_admin_crm_lead_notify_email,access_admin_crm_lead_notify_email,model_crm_notify_email,base.group_system,1,1,1,1
+access_user_crm_lead_notify_email,access_user_crm_lead_notify_email,model_crm_notify_email,base.group_user,1,0,0,0
+access_crm_opportunity_activity,access_crm_opportunity_activity,model_crm_opportunity_activity,base.group_user,1,1,1,1

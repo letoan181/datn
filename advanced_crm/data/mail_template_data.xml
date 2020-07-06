@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="new_lead_coming_template_notify_lead_owner" model="mail.template">
+            <field name="name">1. Send Email To Lead Owner When Lead Created</field>
+            <field name="subject">[Odoo] New Lead Coming</field>
+            <field name="model_id" ref="crm.model_crm_lead"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+                <div style="padding:0px;margin:auto;background: #FFFFFF repeat top /100%;">
+                    You have been assigned to new lead.
+                    % if object.contact_name:
+                        <h3>${object.contact_name}</h3>
+                    % endif
+                    % if object.email_from:
+                        <h3>${object.email_from}</h3>
+                    % endif
+                    % if object.name:
+                        <h3>Subject: ${object.name}</h3>
+                    % endif
+                    % if object.source_id:
+                        <h4>
+                            Source: ${object.source_id.name}
+                        </h4>
+                    % endif
+                </div>
+            </field>
+        </record>
+        <record id="lead_auto_responder_mail" model="mail.template">
+            <field name="name">1. Send Email To Lead Email When Lead Created From Web</field>
+            <field name="subject">Thanks You!</field>
+            <field name="model_id" ref="crm.model_crm_lead"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+                <div style="padding:0px;margin:auto;background: #FFFFFF repeat top /100%;">
+                    Thanks You.We will contact with you as son as possible !
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record forcecreate="True" id="odoo_type" model="crm.project.type">
+            <field name="name"># Odoo</field>
+        </record>
+        <record forcecreate="True" id="magento_type" model="crm.project.type">
+            <field name="name"># Magento</field>
+        </record>
+        <record forcecreate="True" id="aws_type" model="crm.project.type">
+            <field name="name"># AWS</field>
+        </record>
+        <record forcecreate="True" id="white_type" model="crm.project.type">
+            <field name="name"># Whitelabel</field>
+        </record>
+        <record forcecreate="True" id="customize_type" model="crm.project.type">
+            <field name="name"># Customization</field>
+        </record>
+        <record forcecreate="True" id="mobile_type" model="crm.project.type">
+            <field name="name"># Mobile Apps</field>
+        </record>
+<!--        data email to notify default lead created-->
+        <record forcecreate="True" id="email_notify_1" model="crm.notify.email">
+            <field name="name">lamtt@magenest.com</field>
+        </record>
+    </data>
+</odoo>

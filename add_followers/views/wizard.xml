@@ -1,0 +1,32 @@
+<odoo>
+    <data>
+        <record id="wizard_follow_form_view" model="ir.ui.view">
+            <field name="name">wizard follow form view</field>
+            <field name="model">add.followers</field>
+            <field name="arch" type="xml">
+                <form string="Add Followers Project">
+                    <group>
+                        <field name="partner_ids"/>
+                    </group>
+                    <footer>
+                        <button name="add_followers" type="object"
+                                string="Add Followers" class="oe_highlight"/>
+                        <button name="un_followers" type="object"
+                                string="Un Followers" class="oe_highlight"/>
+                        or
+
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="launch_followers_wizard"
+                    name="Add/Un Followers"
+                    binding_model="project.project"
+                    res_model="add.followers"
+                    view_mode="form"
+                    target="new"
+        />
+    </data>
+</odoo>

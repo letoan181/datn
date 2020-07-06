@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+ <record model="ir.ui.view" id="view_res_user_independent_form_inherit">
+           <field name="name">res.users.form.inherit</field>
+            <field name="model">res.users</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/div[@class='oe_title']" position="inside">
+                    <label for="independent" string="Independent"/>
+                    <field name="independent" type="checkbox" string="Independent"/>
+                </xpath>
+            </field>
+      </record>
+</odoo>

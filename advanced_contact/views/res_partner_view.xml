@@ -1,0 +1,148 @@
+<odoo>
+    <data>
+        <record id="work_location_user" model="ir.ui.view">
+            <field name="name">company.location.user</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr='//field[@name="action_id"]' position='after'>
+                    <field name="work_location"/>
+                </xpath>
+            </field>
+        </record>
+<!--        <record id="inherit_contact_search_view" model="ir.ui.view">-->
+<!--            <field name="name">inherit.contact.search</field>-->
+<!--            <field name="model">res.partner</field>-->
+<!--            <field name="inherit_id" ref="base.view_res_partner_filter"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr='//filter[@name="customer"]' position='after'>-->
+<!--                    <filter string="Employees" name="employee"-->
+<!--                            domain="[('employee','=',True), ('parent_id', '=', False)]"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+        <record id="res_partner_form_inherit_hide_redundant_fields" model="ir.ui.view">
+            <field name="name">res.partner.form.inherit.hide.redundant.field</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="groups_id" eval="[(4, ref('advanced_contact.internal_employee_contact'))]"/>
+            <field name="arch" type="xml">
+
+                <xpath expr='//field[@name="city"]' position='attributes'>
+                    <attribute name="attrs">{'invisible': 1}</attribute>
+                </xpath>
+                <xpath expr='//field[@name="country_id"]' position='attributes'>
+                    <attribute name="attrs">{'invisible': 1}</attribute>
+                </xpath>
+                <xpath expr='//field[@name="state_id"]' position='attributes'>
+                    <attribute name="attrs">{'invisible': 1}</attribute>
+                </xpath>
+                <xpath expr='//field[@name="street"]' position='attributes'>
+                    <attribute name="attrs">{'invisible': 1}</attribute>
+                </xpath>
+                <xpath expr='//field[@name="street2"]' position='attributes'>
+                    <attribute name="attrs">{'invisible': 1}</attribute>
+                </xpath>
+                <xpath expr='//field[@name="type"]' position='attributes'>
+                    <attribute name="attrs">{'invisible': 1}</attribute>
+                </xpath>
+                <xpath expr='//field[@name="zip"]' position='attributes'>
+                    <attribute name="attrs">{'invisible': 1}</attribute>
+                </xpath>
+                <xpath expr='//field[@name="vat"]' position='attributes'>
+                    <attribute name="attrs">{'invisible': 1}</attribute>
+                </xpath>
+                <xpath expr='//field[@name="website"]' position='attributes'>
+                    <attribute name="attrs">{'invisible': 1}</attribute>
+                </xpath>
+                <xpath expr='//field[@name="lang"]' position='attributes'>
+                    <attribute name="attrs">{'invisible': 1}</attribute>
+                </xpath>
+                <xpath expr='//field[@name="category_id"]' position='attributes'>
+                    <attribute name="attrs">{'invisible': 1}</attribute>
+                </xpath>
+                <xpath expr='//group' position='attributes'>
+                    <attribute name="attrs">{'invisible': 1}</attribute>
+                </xpath>
+                <xpath expr='//notebook' position='attributes'>
+                    <attribute name="attrs">{'invisible': 1}</attribute>
+                </xpath>
+
+            </field>
+        </record>
+        <record id="res_partner_form_inherit_hide_redundant_fields" model="ir.ui.view">
+            <field name="name">res.partner.form.inherit.hide.redundant.field</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="groups_id" eval="[(4, ref('advanced_contact.hr_employee_contact'))]"/>
+            <field name="arch" type="xml">
+
+                <xpath expr='//field[@name="city"]' position='attributes'>
+                    <attribute name="attrs">{'invisible': 0}</attribute>
+                </xpath>
+                <xpath expr='//field[@name="country_id"]' position='attributes'>
+                    <attribute name="attrs">{'invisible': 0}</attribute>
+                </xpath>
+                <xpath expr='//field[@name="state_id"]' position='attributes'>
+                    <attribute name="attrs">{'invisible': 0}</attribute>
+                </xpath>
+                <xpath expr='//field[@name="street"]' position='attributes'>
+                    <attribute name="attrs">{'invisible': 0}</attribute>
+                </xpath>
+                <xpath expr='//field[@name="street2"]' position='attributes'>
+                    <attribute name="attrs">{'invisible': 0}</attribute>
+                </xpath>
+                <xpath expr='//field[@name="type"]' position='attributes'>
+                    <attribute name="attrs">{'invisible': 0}</attribute>
+                </xpath>
+                <xpath expr='//field[@name="zip"]' position='attributes'>
+                    <attribute name="attrs">{'invisible': 0}</attribute>
+                </xpath>
+                <xpath expr='//field[@name="vat"]' position='attributes'>
+                    <attribute name="attrs">{'invisible': 0}</attribute>
+                </xpath>
+                <xpath expr='//field[@name="website"]' position='attributes'>
+                    <attribute name="attrs">{'invisible': 0}</attribute>
+                </xpath>
+                <xpath expr='//field[@name="lang"]' position='attributes'>
+                    <attribute name="attrs">{'invisible': 0}</attribute>
+                </xpath>
+                <xpath expr='//field[@name="category_id"]' position='attributes'>
+                    <attribute name="attrs">{'invisible': 0}</attribute>
+                </xpath>
+                <xpath expr='//group' position='attributes'>
+                    <attribute name="attrs">{'invisible': 0}</attribute>
+                </xpath>
+                <xpath expr='//notebook' position='attributes'>
+                    <attribute name="attrs">{'invisible': 0}</attribute>
+                </xpath>
+
+            </field>
+        </record>
+         <record id="res_partner_form_inherit" model="ir.ui.view">
+            <field name="name">res.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr='//field[@name="type"]' position='after'>
+                    <field name="unsubscribed" invisible="1"/>
+                </xpath>
+            </field>
+         </record>
+<!--        update filter new_marketing -->
+
+         <record id="res_partner_search_new_marketing_inherit" model="ir.ui.view">
+            <field name="name">res_partner_search_new_marketing_inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <filter name="type_company" position="after">
+                    <separator/>
+                    <filter string="Try new Marketing" name="try_new_marketing" domain="[('need_new_marketing', '=', True)]"/>
+                    <separator/>
+                </filter>
+            </field>
+         </record>
+
+    </data>
+</odoo>

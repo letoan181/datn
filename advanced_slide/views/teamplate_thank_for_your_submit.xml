@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="thank_for_submit">
+        <t t-call="web.basic_layout">
+            <!-- <t t-call="report.external_layout"> -->
+            <div class="page" style="text-align: center;margin-top: 40%;">
+                <h2 style="color:blue;text-align: center;margin-top: 40%;">Thanks for your submit !</h2>
+                <h2 style="color:blue;text-align: center;">Your survey will be reviewed soon !</h2>
+            </div>
+        </t>
+    </template>
+</odoo>
