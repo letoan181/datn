@@ -16,7 +16,7 @@ class MagenestTask(models.Model):
     ]
 
     priority = fields.Selection(STATE_COLOR_SELECTION, 'Priority', default='3', track_visibility='onchange')
-    code = fields.Char(string='Task Code', copy=False, default="New")
+    code = fields.Char(string='Task Code', copy=False)
     _sql_constraints = [
         ('code_uniq', 'unique(code)', "A code can only be assigned to one task !"),
     ]

@@ -13,6 +13,7 @@ class ProjectDocument(models.Model):
                                             string='Document Part')
     document_tab_visible = fields.Boolean(compute='_document_tab_visible')
     document_count = fields.Integer(compute='_document_count')
+    tag_ids = fields.Many2many('document.tags', string='Tags')
 
     def _document_tab_visible(self):
         self.ensure_one()
@@ -95,7 +96,13 @@ class ProjectDocument(models.Model):
                 else:
                     if values.get('document_project_name'):
                         Config = self.env['ir.config_parameter'].sudo()
-                        parent_file_url = Config.get_param('document_management.project_folder_base')
+                        get_google_account = self.env['document.google.account'].sudo().search([('is_use', '=', True)],
+                                                                                               limit=1)
+                        if get_google_account and get_google_account.project_folder_base:
+                            parent_file_url = get_google_account.project_folder_base
+                        else:
+                            parent_file_url = Config.get_param('document_management.general_folder_base')
+                        # parent_file_url = Config.get_param('document_management.project_folder_base')
                         if parent_file_url is not False and len(parent_file_url) > 0:
                             parent_file_url_arr = parent_file_url.split('/')
                             parent_id = parent_file_url_arr[len(parent_file_url_arr) - 1]
@@ -113,7 +120,8 @@ class ProjectDocument(models.Model):
                             file_id = google_drive_new_folder['id']
                             # force update database
                             self.env.cr.execute(
-                                """update project_project set google_drive_url = %s , file_id = %s WHERE id=%s""", (base_url, file_id, self.id))
+                                """update project_project set google_drive_url = %s , file_id = %s WHERE id=%s""",
+                                (base_url, file_id, self.id))
                             self.env.cr.commit()
                         else:
                             raise UserError(_("Please config Project Folder base in General Setting"))
@@ -158,6 +166,7 @@ class DocumentProjectPart(models.Model):
                                   string='Read Users', required=True)
     current_permission_can_update = fields.Boolean(compute='_compute_current_permission_can_update', default=False,
                                                    store=False)
+    tag_ids = fields.Many2many('document.tags', string='Tags')
 
     def _compute_current_permission_can_update(self):
         for e in self:
